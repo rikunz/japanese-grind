@@ -12,8 +12,11 @@
 
   async function init() {
     if (!slug) {
-      NC.renderError(app, new NC.NCError('Parameter ?quiz= belum diisi',
-        'Contoh: <code>certificate.html?quiz=week1/day3-bunpou&amp;name=Thoriq</code>'));
+      NC.renderPicker(app, {
+        page: 'certificate.html',
+        title: 'Pilih sertifikat',
+        desc: 'Sertifikat terbit per materi. Pilih materi yang sudah kamu selesaikan.'
+      });
       return;
     }
 
