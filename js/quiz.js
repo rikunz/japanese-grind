@@ -26,13 +26,14 @@
     if (!slug) {
       document.getElementById('printLink').classList.add('hidden');
       NC.renderPicker(app, {
-        page: 'quiz.html',
+        page: 'quiz',
         title: 'Pilih materi latihan',
         desc: 'Halaman quiz dibuka tanpa parameter <code>?quiz=</code>. Pilih salah satu materi di bawah ini.'
       });
       return;
     }
-    document.getElementById('printLink').href = 'print.html?quiz=' + NC.encodeSlug(slug);
+    document.getElementById('printLink').href = NC.href('print', slug);
+    document.getElementById('printLink').classList.remove('hidden');
 
     try {
       quiz = await NC.loadQuiz(slug);
@@ -349,7 +350,7 @@
     if (!confirm('Keluar dari ujian? Jawaban yang sudah diisi tidak disimpan.')) return;
     submitted = true;
     var done = proctor ? proctor.stop() : Promise.resolve();
-    done.then(function () { location.href = 'index.html'; });
+    done.then(function () { location.href = NC.page('index'); });
   });
 
   /* --- Kumpulkan -------------------------------------------------------- */
@@ -380,7 +381,7 @@
 
     var done = proctor ? proctor.stop() : Promise.resolve();
     done.then(function () {
-      location.href = 'result.html?quiz=' + NC.encodeSlug(quiz.slug);
+      location.href = NC.href('result', quiz.slug);
     });
   }
 })();

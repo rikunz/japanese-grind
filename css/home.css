@@ -16,6 +16,107 @@
   max-width: 620px;
 }
 
+/* --- Layar pilih level -------------------------------------------------- */
+.chooser-head { margin-bottom: 16px; }
+.chooser-head h2 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.chooser-head p { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: 12px;
+}
+
+.level-card {
+  --tone: var(--twitter-blue);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 18px 18px 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--tone);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.level-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+  border-color: var(--line-strong);
+  border-top-color: var(--tone);
+}
+.level-card:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ring); }
+.level-card.is-empty { cursor: pointer; background: #fbfcfe; }
+.level-card.is-empty .level-card__code { color: var(--muted); }
+
+.level-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.level-card__code {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--tone);
+}
+.level-card__desc {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  min-height: 40px;
+}
+.level-card__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.level-card__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--alice-blue);
+}
+.level-card__bar span {
+  display: block;
+  height: 100%;
+  background: var(--tone);
+  transition: width 0.3s ease;
+}
+
+/* --- Kepala level ------------------------------------------------------- */
+.level-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.level-head__title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.level-head__sub { font-size: 13px; color: var(--muted); }
+
 /* --- Tab level ---------------------------------------------------------- */
 .level-tabs {
   display: flex;
@@ -30,6 +131,7 @@
   max-width: 100%;
   box-shadow: var(--shadow-sm);
 }
+.level-tabs[hidden] { display: none; }
 .level-tab {
   display: flex;
   align-items: baseline;
@@ -54,6 +156,7 @@
   letter-spacing: 0.04em;
 }
 .level-tab__meta { font-size: 11.5px; opacity: 0.75; }
+.level-tab.is-empty:not(.is-active) { opacity: 0.55; }
 .level-tab:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--ring); outline: none; }
 
 .level-note {
@@ -73,6 +176,7 @@
   overflow: hidden;
   margin-bottom: 28px;
 }
+.stats[hidden] { display: none; }
 .stat { background: var(--card); padding: 14px 16px; }
 .stat__label {
   font-size: 11.5px;

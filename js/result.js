@@ -10,7 +10,7 @@
 
   if (!slug) {
     NC.renderPicker(app, {
-      page: 'result.html',
+      page: 'result',
       title: 'Pilih hasil latihan',
       desc: 'Halaman hasil dibuka tanpa parameter <code>?quiz=</code>. Pilih materi yang mau dilihat hasilnya.'
     });
@@ -24,8 +24,8 @@
         '<div class="state__desc">Hasil disimpan di browser yang dipakai mengerjakan. ' +
           'Kerjakan quiz-nya dulu, ya.</div>' +
         '<div class="btn-row" style="justify-content:center">' +
-          '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Kerjakan sekarang</a>' +
-          '<a class="btn btn--outline" href="index.html">Beranda</a>' +
+          '<a class="btn btn--primary" href="' + NC.href('quiz', slug) + '">Kerjakan sekarang</a>' +
+          '<a class="btn btn--outline" href="' + NC.page('index') + '">Beranda</a>' +
         '</div>' +
       '</div>';
     return;
@@ -35,7 +35,6 @@
   render(result);
 
   function render(r) {
-    var q = NC.encodeSlug(r.slug);
     var passLeft = Math.max(0, r.passingScore - r.score);
 
     app.innerHTML = '' +
@@ -94,11 +93,11 @@
           ' dari ' + r.total + ' poin. Coba lagi setelah membaca pembahasan di bawah.</p>') +
 
         '<div class="actions">' +
-          '<a class="btn btn--primary" href="quiz.html?quiz=' + q + '">Kerjakan ulang</a>' +
-          '<a class="btn btn--outline" href="print.html?quiz=' + q + '">Cetak soal</a>' +
+          '<a class="btn btn--primary" href="' + NC.href('quiz', r.slug) + '">Kerjakan ulang</a>' +
+          '<a class="btn btn--outline" href="' + NC.href('print', r.slug) + '">Cetak soal</a>' +
           '<div class="spacer"></div>' +
           (r.passed
-            ? '<a class="btn btn--secondary" href="certificate.html?quiz=' + q + '">Lihat sertifikat</a>'
+            ? '<a class="btn btn--secondary" href="' + NC.href('certificate', r.slug) + '">Lihat sertifikat</a>'
             : '<span class="btn btn--secondary" aria-disabled="true">Sertifikat terkunci</span>') +
         '</div>' +
 

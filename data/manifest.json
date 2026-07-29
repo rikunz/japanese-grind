@@ -10,9 +10,21 @@
   },
   "levels": [
     {
+      "id": "n5",
+      "title": "N5",
+      "subtitle": "Dasar — hiragana, katakana, dan kalimat sederhana",
+      "weeks": []
+    },
+    {
+      "id": "n4",
+      "title": "N4",
+      "subtitle": "Dasar lanjutan — percakapan sehari-hari",
+      "weeks": []
+    },
+    {
       "id": "n3",
       "title": "N3",
-      "subtitle": "Kelas menengah — JLPT N3",
+      "subtitle": "Menengah — teks dan percakapan umum",
       "weeks": [
         {
           "id": "week1",
@@ -69,6 +81,18 @@
           ]
         }
       ]
+    },
+    {
+      "id": "n2",
+      "title": "N2",
+      "subtitle": "Menengah lanjutan — berita dan artikel",
+      "weeks": []
+    },
+    {
+      "id": "n1",
+      "title": "N1",
+      "subtitle": "Mahir — teks akademik dan abstrak",
+      "weeks": []
     }
   ]
 }

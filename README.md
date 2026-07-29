@@ -53,20 +53,25 @@ Data disusun **level → minggu → hari**. Menambah level baru cukup membuat fo
 ## Alur
 
 ```
-index.html  →  quiz.html?quiz=…  →  result.html?quiz=…  ┬→ certificate.html?quiz=…
-                                                        └→ print.html?quiz=…
+Beranda  →  Pilih level (N5–N1)  →  Daftar minggu & hari
+                                          │
+                                          ▼
+                            quiz?quiz=…  →  result?quiz=…  ┬→ certificate?quiz=…
+                                                           └→ print?quiz=…
 ```
+
+Beranda punya dua tahap: kartu level dulu (N5, N4, N3, N2, N1), baru daftar latihan pada level itu. Level yang belum punya materi ditandai **Segera hadir**. Level aktif tersimpan di URL (`/?level=n3`), jadi bisa di-bookmark dan tombol *back* browser tetap jalan.
 
 | Halaman | URL |
 | --- | --- |
-| Beranda | `/` |
-| Beranda (level tertentu) | `/index.html?level=n3` |
-| Quiz | `/quiz.html?quiz=n3/week1/day3-bunpou` |
-| Hasil | `/result.html?quiz=n3/week1/day3-bunpou` |
-| Sertifikat | `/certificate.html?quiz=n3/week1/day3-bunpou` |
-| Sertifikat (manual) | `/certificate.html?quiz=n3/week1/day3-bunpou&name=Thoriq&score=8&total=10&date=2026-07-29` |
-| Lembar soal | `/print.html?quiz=n3/week1/day3-bunpou` |
-| Lembar soal + kunci | `/print.html?quiz=n3/week1/day3-bunpou&key=1` |
+| Beranda (pilih level) | `/` |
+| Beranda (isi satu level) | `/?level=n3` |
+| Quiz | `/quiz?quiz=n3/week1/day3-bunpou` |
+| Hasil | `/result?quiz=n3/week1/day3-bunpou` |
+| Sertifikat | `/certificate?quiz=n3/week1/day3-bunpou` |
+| Sertifikat (manual) | `/certificate?quiz=n3/week1/day3-bunpou&name=Thoriq&score=8&total=10&date=2026-07-29` |
+| Lembar soal | `/print?quiz=n3/week1/day3-bunpou` |
+| Lembar soal + kunci | `/print?quiz=n3/week1/day3-bunpou&key=1` |
 
 `?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`, yaitu `level/week/day`. Kalau halaman quiz/hasil/sertifikat/cetak dibuka tanpa `?quiz=`, halaman menampilkan daftar materi untuk dipilih — bukan error.
 
@@ -74,7 +79,13 @@ Soal penulisan URL:
 
 * Garis miring pada slug **tidak** di-escape jadi `%2F`, jadi tautannya terbaca apa adanya: `quiz.html?quiz=n3/week1/day3-bunpou`. Ini sah menurut RFC 3986 — `/` boleh muncul di bagian query.
 * Parser (`NC.quizSlug()`) menerima ketiga bentuk: `n3/week1/day3-bunpou`, `n3%2Fweek1%2Fday3-bunpou` (tautan lama), dan yang tak sengaja berakhiran `.json` atau berawalan `/`.
-* Tautan yang dibuat aplikasi selalu memakai `.html` (`quiz.html?quiz=…`) supaya jalan di GitHub Pages maupun server statis apa pun. Kalau dev server-mu memangkas ekstensi (`npx serve`), `/quiz?quiz=…` juga jalan.
+* Tautan dibuat **tanpa** `.html` (`quiz?quiz=…`). Ini jalan di `npx serve` dan GitHub Pages, yang sama-sama memetakan `/quiz` ke `quiz.html`. Kalau hosting-mu tidak memetakannya, ubah satu baris di [`js/common.js`](js/common.js):
+
+  ```js
+  var LINK_STYLE = 'html';   // semula 'clean'
+  ```
+
+  Semua tautan langsung berubah jadi `quiz.html?quiz=…`. File-nya sendiri tetap bernama `quiz.html`, jadi kedua bentuk URL selalu bisa diakses langsung.
 
 ---
 

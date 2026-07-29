@@ -15,7 +15,7 @@
   async function init() {
     if (!slug) {
       NC.renderPicker(app, {
-        page: 'print.html',
+        page: 'print',
         title: 'Pilih lembar soal',
         desc: 'Halaman cetak dibuka tanpa parameter <code>?quiz=</code>. Pilih materi yang mau dicetak.'
       });
@@ -34,13 +34,12 @@
   }
 
   function toolbar() {
-    var q = NC.encodeSlug(slug);
     return '<div class="print-toolbar">' +
-      '<a class="btn btn--outline btn--sm" href="quiz.html?quiz=' + q + '">← Kerjakan online</a>' +
+      '<a class="btn btn--outline btn--sm" href="' + NC.href('quiz', slug) + '">← Kerjakan online</a>' +
       '<div class="spacer"></div>' +
       (showKey
-        ? '<a class="btn btn--ghost btn--sm" href="print.html?quiz=' + q + '">Sembunyikan kunci</a>'
-        : '<a class="btn btn--ghost btn--sm" href="print.html?quiz=' + q + '&key=1">Tampilkan kunci jawaban</a>') +
+        ? '<a class="btn btn--ghost btn--sm" href="' + NC.href('print', slug) + '">Sembunyikan kunci</a>'
+        : '<a class="btn btn--ghost btn--sm" href="' + NC.href('print', slug, {key: 1}) + '">Tampilkan kunci jawaban</a>') +
       '<button type="button" class="btn btn--primary btn--sm" id="printBtn">Cetak (Ctrl + P)</button>' +
     '</div>';
   }
