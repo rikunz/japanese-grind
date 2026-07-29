@@ -1,14 +1,24 @@
 /* ==========================================================================
    Nihonggo Club — halaman quiz
+   Alur: gate (nama + aturan) → layar penuh → soal → kumpulkan → hasil
    ========================================================================== */
 (function () {
   'use strict';
 
   var app = document.getElementById('app');
+  var overlay = document.getElementById('examOverlay');
   var slug = NC.param('quiz');
+
   var quiz = null;
   var answers = {};
+  var name = '';
   var submitted = false;
+  var proctor = null;
+  var examMode = true;
+
+  var ICON_FULLSCREEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
 
   init();
 
@@ -23,6 +33,7 @@
       return;
     }
     document.getElementById('printLink').href = 'print.html?quiz=' + encodeURIComponent(slug);
+
     try {
       quiz = await NC.loadQuiz(slug);
     } catch (err) {
@@ -30,11 +41,120 @@
       return;
     }
     document.title = quiz.title + ' — Nihonggo Club';
-    render();
-    bind();
+    examMode = quiz.proctor !== false;
+    renderGate();
   }
 
-  /* --- Render ----------------------------------------------------------- */
+  /* --- Layar mulai ------------------------------------------------------ */
+  function renderGate() {
+    var rules = examMode
+      ? ['Ujian berjalan dalam <b>layar penuh</b>. Keluar dari layar penuh akan menjeda ujian.',
+         'Menyalin, klik kanan, dan mencetak soal dinonaktifkan.',
+         'Pindah tab atau jendela lain <b>tercatat</b> sebagai pelanggaran.',
+         'Konten otomatis diburamkan saat jendela ini tidak aktif.',
+         'Tidak ada batas waktu — soal kosong dihitung salah.']
+      : ['Tidak ada batas waktu.', 'Soal kosong dihitung salah.',
+         'Hasil dan pembahasan muncul setelah dikumpulkan.'];
+
+    app.innerHTML =
+      '<div class="gate">' +
+        '<div class="gate__tags">' +
+          (quiz.level ? '<span class="badge badge--brand">' + NC.esc(quiz.level) + '</span>' : '') +
+          '<span class="badge badge--muted">' + quiz.questions.length + ' soal</span>' +
+          '<span class="badge badge--muted">' + quiz.totalPoints + ' poin</span>' +
+          '<span class="badge badge--muted">Lulus ≥ ' + quiz.passingScore + '</span>' +
+          (examMode ? '<span class="badge badge--fail">Mode ujian</span>' : '') +
+        '</div>' +
+        '<h1>' + NC.esc(quiz.title) + '</h1>' +
+        (quiz.description ? '<p class="gate__desc">' + NC.esc(quiz.description) + '</p>' : '') +
+
+        (quiz.collectName ?
+        '<div class="gate__field">' +
+          '<label class="field">' +
+            '<span class="field__label">Nama peserta</span>' +
+            '<input class="input" id="playerName" type="text" autocomplete="name" maxlength="60" ' +
+              'placeholder="Tulis nama lengkap kamu" value="' + NC.esc(NC.getName()) + '">' +
+          '</label>' +
+          '<p class="field__hint">Nama ini dipakai pada halaman hasil dan sertifikat.</p>' +
+        '</div>' : '') +
+
+        '<div class="gate__error" id="gateError"></div>' +
+
+        '<div class="gate__rules">' +
+          '<div class="gate__rules-title">' + (examMode ? 'Aturan ujian' : 'Ketentuan') + '</div>' +
+          '<ul>' + rules.map(function (r) { return '<li><span>' + r + '</span></li>'; }).join('') + '</ul>' +
+        '</div>' +
+
+        '<button type="button" class="btn btn--primary btn--xl" id="startBtn">' +
+          (examMode ? ICON_FULLSCREEN + 'Mulai &amp; masuk layar penuh' : 'Mulai latihan') +
+        '</button>' +
+
+        (examMode
+          ? '<p class="gate__note">Soal baru ditampilkan setelah layar penuh aktif.</p>'
+          : '') +
+      '</div>';
+
+    document.getElementById('startBtn').addEventListener('click', startExam);
+    var nameInput = document.getElementById('playerName');
+    if (nameInput) {
+      nameInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); startExam(); }
+      });
+    }
+  }
+
+  function gateError(html) {
+    var box = document.getElementById('gateError');
+    if (!box) return;
+    box.innerHTML = html;
+    box.classList.add('is-visible');
+  }
+
+  /* --- Mulai ------------------------------------------------------------ */
+  function startExam() {
+    var nameInput = document.getElementById('playerName');
+    if (quiz.collectName) {
+      name = nameInput.value.trim();
+      if (!name) {
+        gateError('Nama wajib diisi sebelum mulai.');
+        nameInput.classList.add('input--invalid');
+        nameInput.focus();
+        return;
+      }
+      nameInput.classList.remove('input--invalid');
+      NC.setName(name);
+    }
+
+    if (!examMode) { openQuiz(); return; }
+
+    proctor = NC.createProctor({
+      onState: onExamState,
+      onViolation: function (type) {
+        if (type === 'copy' || type === 'capture') flashBar();
+      }
+    });
+
+    proctor.start().then(openQuiz).catch(function (err) {
+      gateError('<b>Layar penuh gagal diaktifkan.</b><br>' + NC.esc(err && err.message ? err.message : '') +
+        ' Coba klik tombolnya lagi, atau lanjut tanpa layar penuh — statusnya akan dicatat di hasil.' +
+        '<br><br><button type="button" class="btn btn--outline btn--sm" id="startNoFs">Lanjut tanpa layar penuh</button>');
+      var fallback = document.getElementById('startNoFs');
+      if (fallback) {
+        fallback.addEventListener('click', function () {
+          proctor = NC.createProctor({ enforce: false, onState: onExamState });
+          proctor.start().then(openQuiz);
+        });
+      }
+    });
+  }
+
+  function openQuiz() {
+    render();
+    bind();
+    updateExamBar();
+  }
+
+  /* --- Render soal ------------------------------------------------------ */
   function render() {
     var lastPassage = '';
     var lastSection = null;
@@ -58,6 +178,13 @@
     });
 
     app.innerHTML = '' +
+      (examMode ?
+      '<div class="exam-bar">' +
+        '<span class="exam-bar__dot"></span>' +
+        '<span>Mode ujian aktif' + (name ? ' · ' + NC.esc(name) : '') + '</span>' +
+        '<span class="exam-bar__count" id="examBarCount">0 pelanggaran</span>' +
+      '</div>' : '') +
+
       '<div class="quiz-head">' +
         '<div class="quiz-head__tags">' +
           (quiz.level ? '<span class="badge badge--brand">' + NC.esc(quiz.level) + '</span>' : '') +
@@ -72,17 +199,6 @@
           '<span>Tanpa batas waktu</span>' +
         '</div>' +
       '</div>' +
-
-      (quiz.collectName ?
-      '<div class="name-card">' +
-        '<label class="field">' +
-          '<span class="field__label">Nama peserta</span>' +
-          '<input class="input" id="playerName" type="text" autocomplete="name" maxlength="60" ' +
-            'placeholder="Tulis nama lengkap kamu" value="' + NC.esc(NC.getName()) + '">' +
-        '</label>' +
-        '<p class="field__hint">Nama ini dipakai pada halaman hasil dan sertifikat.</p>' +
-        '<p class="field__error" id="nameError">Nama wajib diisi sebelum mengumpulkan jawaban.</p>' +
-      '</div>' : '') +
 
       '<form id="quizForm" novalidate>' + body +
         '<div class="submit-bar">' +
@@ -133,8 +249,7 @@
     form.addEventListener('change', function (e) {
       var input = e.target;
       if (input.type !== 'radio') return;
-      var qid = input.dataset.qid;
-      answers[qid] = input.value;
+      answers[input.dataset.qid] = input.value;
 
       var group = input.closest('.options');
       if (group) {
@@ -176,23 +291,69 @@
       Math.round((count / quiz.questions.length) * 100) + '%';
   }
 
-  function submit() {
-    var name = '';
-    if (quiz.collectName) {
-      var nameInput = document.getElementById('playerName');
-      name = nameInput.value.trim();
-      var error = document.getElementById('nameError');
-      if (!name) {
-        error.classList.add('is-visible');
-        nameInput.classList.add('input--invalid');
-        nameInput.focus();
-        nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      error.classList.remove('is-visible');
-      nameInput.classList.remove('input--invalid');
-    }
+  /* --- Mode ujian ------------------------------------------------------- */
+  function onExamState(state) {
+    updateExamBar(state.counts);
+    if (!state.running) { overlay.hidden = true; return; }
 
+    if (state.paused) {
+      showOverlay(state);
+    } else {
+      overlay.hidden = true;
+    }
+  }
+
+  function showOverlay(state) {
+    var isTab = state.reason === 'tab';
+    document.getElementById('examTitle').textContent = isTab
+      ? 'Kamu meninggalkan halaman ujian'
+      : 'Ujian dijeda';
+    document.getElementById('examDesc').textContent = isTab
+      ? 'Berpindah tab atau jendela tercatat sebagai pelanggaran. Kembali ke layar penuh untuk melanjutkan.'
+      : 'Ujian harus dikerjakan dalam layar penuh. Klik tombol di bawah untuk melanjutkan.';
+    document.getElementById('examLog').innerHTML = logRows(state.counts);
+    overlay.hidden = false;
+    document.getElementById('examResume').focus();
+  }
+
+  function logRows(counts) {
+    var rows = Object.keys(counts)
+      .filter(function (k) { return counts[k] > 0; })
+      .map(function (k) {
+        return '<li><span>' + NC.PROCTOR_LABELS[k] + '</span><b>' + counts[k] + '×</b></li>';
+      });
+    return rows.length ? rows.join('') : '<li class="exam-log--clean">Belum ada pelanggaran tercatat.</li>';
+  }
+
+  function updateExamBar(counts) {
+    var el = document.getElementById('examBarCount');
+    if (!el) return;
+    var total = counts
+      ? Object.keys(counts).reduce(function (n, k) { return n + counts[k]; }, 0)
+      : (proctor ? proctor.summary().total : 0);
+    el.textContent = total + ' pelanggaran';
+    el.classList.toggle('is-warn', total > 0);
+  }
+
+  function flashBar() {
+    var el = document.getElementById('examBarCount');
+    if (!el) return;
+    el.classList.add('is-warn');
+  }
+
+  document.getElementById('examResume').addEventListener('click', function () {
+    if (proctor) proctor.resume().catch(function () { /* pengguna menolak */ });
+  });
+
+  document.getElementById('examQuit').addEventListener('click', function () {
+    if (!confirm('Keluar dari ujian? Jawaban yang sudah diisi tidak disimpan.')) return;
+    submitted = true;
+    var done = proctor ? proctor.stop() : Promise.resolve();
+    done.then(function () { location.href = 'index.html'; });
+  });
+
+  /* --- Kumpulkan -------------------------------------------------------- */
+  function submit() {
     var missing = quiz.questions.filter(function (q) {
       return answers[q.id] == null || answers[q.id] === '';
     });
@@ -214,7 +375,12 @@
 
     submitted = true;
     var result = NC.grade(quiz, answers, name);
+    if (proctor) result.proctor = proctor.summary();
     NC.saveResult(result);
-    location.href = 'result.html?quiz=' + encodeURIComponent(quiz.slug);
+
+    var done = proctor ? proctor.stop() : Promise.resolve();
+    done.then(function () {
+      location.href = 'result.html?quiz=' + encodeURIComponent(quiz.slug);
+    });
   }
 })();
