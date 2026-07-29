@@ -7,7 +7,7 @@
   'use strict';
 
   var app = document.getElementById('app');
-  var slug = NC.param('quiz');
+  var slug = NC.quizSlug();
   var showKey = NC.param('key') === '1';
 
   init();
@@ -34,7 +34,7 @@
   }
 
   function toolbar() {
-    var q = encodeURIComponent(slug);
+    var q = NC.encodeSlug(slug);
     return '<div class="print-toolbar">' +
       '<a class="btn btn--outline btn--sm" href="quiz.html?quiz=' + q + '">← Kerjakan online</a>' +
       '<div class="spacer"></div>' +

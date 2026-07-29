@@ -111,7 +111,7 @@
   }
 
   function dayCard(day, prog, level) {
-    var q = encodeURIComponent(day.slug);
+    var q = NC.encodeSlug(day.slug);
     var passingText = day.passing && day.points
       ? 'Lulus ≥ ' + day.passing + '/' + day.points
       : 'Lulus ≥ 60%';

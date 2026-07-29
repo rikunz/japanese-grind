@@ -5,7 +5,7 @@
   'use strict';
 
   var app = document.getElementById('app');
-  var slug = NC.param('quiz');
+  var slug = NC.quizSlug();
   var result = slug ? NC.getResult(slug) : null;
 
   if (!slug) {
@@ -24,7 +24,7 @@
         '<div class="state__desc">Hasil disimpan di browser yang dipakai mengerjakan. ' +
           'Kerjakan quiz-nya dulu, ya.</div>' +
         '<div class="btn-row" style="justify-content:center">' +
-          '<a class="btn btn--primary" href="quiz.html?quiz=' + encodeURIComponent(slug) + '">Kerjakan sekarang</a>' +
+          '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Kerjakan sekarang</a>' +
           '<a class="btn btn--outline" href="index.html">Beranda</a>' +
         '</div>' +
       '</div>';
@@ -35,7 +35,7 @@
   render(result);
 
   function render(r) {
-    var q = encodeURIComponent(r.slug);
+    var q = NC.encodeSlug(r.slug);
     var passLeft = Math.max(0, r.passingScore - r.score);
 
     app.innerHTML = '' +
