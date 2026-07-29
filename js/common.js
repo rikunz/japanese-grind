@@ -30,6 +30,16 @@
     return new URLSearchParams(global.location.search).get(name);
   }
 
+  /* Baca ?quiz= dan rapikan. URLSearchParams sudah men-decode %2F menjadi "/",
+     jadi tautan lama (…?quiz=n3%2Fweek1%2Fday3-bunpou) tetap jalan. Toleransi
+     juga garis miring di ujung dan akhiran .json. */
+  function quizSlug() {
+    var raw = param('quiz');
+    if (!raw) return null;
+    var slug = String(raw).trim().replace(/^[\s/]+|[\s/]+$/g, '').replace(/\.json$/i, '');
+    return slug || null;
+  }
+
   function esc(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -42,6 +52,24 @@
 
   function clamp(n, min, max) {
     return Math.min(max, Math.max(min, n));
+  }
+
+  /* Slug dipakai apa adanya di URL: "/" tidak di-escape jadi %2F
+     (RFC 3986 mengizinkan "/" di dalam query), sehingga tautannya terbaca:
+     quiz.html?quiz=n3/week1/day3-bunpou */
+  function encodeSlug(slug) {
+    return encodeURIComponent(String(slug == null ? '' : slug)).replace(/%2F/gi, '/');
+  }
+
+  function href(page, slug, params) {
+    var url = page + '?quiz=' + encodeSlug(slug);
+    if (params) {
+      Object.keys(params).forEach(function (key) {
+        if (params[key] == null || params[key] === '') return;
+        url += '&' + encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
+      });
+    }
+    return url;
   }
 
   /* --- Tanggal ---------------------------------------------------------- */
@@ -351,7 +379,7 @@
             (g.sub ? '<span class="picker-group__sub">' + esc(g.sub) + '</span>' : '') +
           '</div>' +
           g.days.map(function (d) {
-            return '<a class="picker-item" href="' + page + '?quiz=' + encodeURIComponent(d.slug) + '">' +
+            return '<a class="picker-item" href="' + page + '?quiz=' + encodeSlug(d.slug) + '">' +
               '<span class="badge badge--brand">' + esc(d.day || '—') + '</span>' +
               '<span class="picker-item__text">' +
                 '<b class="jp">' + esc(d.title || d.slug) + '</b>' +
@@ -382,8 +410,11 @@
     STORE: STORE,
     NCError: NCError,
     param: param,
+    quizSlug: quizSlug,
     esc: esc,
     circled: circled,
+    encodeSlug: encodeSlug,
+    href: href,
     clamp: clamp,
     isoDate: isoDate,
     dateID: dateID,

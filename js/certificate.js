@@ -6,7 +6,7 @@
   'use strict';
 
   var app = document.getElementById('app');
-  var slug = NC.param('quiz');
+  var slug = NC.quizSlug();
 
   init();
 
@@ -98,7 +98,7 @@
 
     return '' +
     '<div class="cert-toolbar">' +
-      '<a class="btn btn--outline btn--sm" href="result.html?quiz=' + encodeURIComponent(slug) + '">← Kembali ke hasil</a>' +
+      '<a class="btn btn--outline btn--sm" href="result.html?quiz=' + NC.encodeSlug(slug) + '">← Kembali ke hasil</a>' +
       '<div class="spacer"></div>' +
       '<a class="btn btn--ghost btn--sm" href="index.html">Beranda</a>' +
       '<button type="button" class="btn btn--primary btn--sm" id="printCert">Cetak / Simpan PDF</button>' +
@@ -192,7 +192,7 @@
       '<div class="state__desc">Belum ada hasil untuk latihan ini di browser ini. ' +
         'Kerjakan quiz-nya dulu, sertifikat terbit otomatis jika skormu memenuhi batas lulus.</div>' +
       '<div class="btn-row" style="justify-content:center">' +
-        '<a class="btn btn--primary" href="quiz.html?quiz=' + encodeURIComponent(slug) + '">Kerjakan quiz</a>' +
+        '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Kerjakan quiz</a>' +
         '<a class="btn btn--outline" href="index.html">Beranda</a>' +
       '</div>' +
     '</div>';
@@ -208,8 +208,8 @@
         '<div><div class="k">Batas lulus</div><div class="v">' + passing + '/' + total + '</div></div>' +
       '</div>' +
       '<div class="btn-row" style="justify-content:center">' +
-        '<a class="btn btn--primary" href="quiz.html?quiz=' + encodeURIComponent(slug) + '">Coba lagi</a>' +
-        '<a class="btn btn--outline" href="result.html?quiz=' + encodeURIComponent(slug) + '">Lihat pembahasan</a>' +
+        '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Coba lagi</a>' +
+        '<a class="btn btn--outline" href="result.html?quiz=' + NC.encodeSlug(slug) + '">Lihat pembahasan</a>' +
       '</div>' +
     '</div>';
   }

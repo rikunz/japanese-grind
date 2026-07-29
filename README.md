@@ -70,6 +70,12 @@ index.html  →  quiz.html?quiz=…  →  result.html?quiz=…  ┬→ certifica
 
 `?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`, yaitu `level/week/day`. Kalau halaman quiz/hasil/sertifikat/cetak dibuka tanpa `?quiz=`, halaman menampilkan daftar materi untuk dipilih — bukan error.
 
+Soal penulisan URL:
+
+* Garis miring pada slug **tidak** di-escape jadi `%2F`, jadi tautannya terbaca apa adanya: `quiz.html?quiz=n3/week1/day3-bunpou`. Ini sah menurut RFC 3986 — `/` boleh muncul di bagian query.
+* Parser (`NC.quizSlug()`) menerima ketiga bentuk: `n3/week1/day3-bunpou`, `n3%2Fweek1%2Fday3-bunpou` (tautan lama), dan yang tak sengaja berakhiran `.json` atau berawalan `/`.
+* Tautan yang dibuat aplikasi selalu memakai `.html` (`quiz.html?quiz=…`) supaya jalan di GitHub Pages maupun server statis apa pun. Kalau dev server-mu memangkas ekstensi (`npx serve`), `/quiz?quiz=…` juga jalan.
+
 ---
 
 ## Menjalankan di lokal

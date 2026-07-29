@@ -7,7 +7,7 @@
 
   var app = document.getElementById('app');
   var overlay = document.getElementById('examOverlay');
-  var slug = NC.param('quiz');
+  var slug = NC.quizSlug();
 
   var quiz = null;
   var answers = {};
@@ -32,7 +32,7 @@
       });
       return;
     }
-    document.getElementById('printLink').href = 'print.html?quiz=' + encodeURIComponent(slug);
+    document.getElementById('printLink').href = 'print.html?quiz=' + NC.encodeSlug(slug);
 
     try {
       quiz = await NC.loadQuiz(slug);
@@ -380,7 +380,7 @@
 
     var done = proctor ? proctor.stop() : Promise.resolve();
     done.then(function () {
-      location.href = 'result.html?quiz=' + encodeURIComponent(quiz.slug);
+      location.href = 'result.html?quiz=' + NC.encodeSlug(quiz.slug);
     });
   }
 })();
