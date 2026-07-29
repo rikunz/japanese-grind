@@ -193,6 +193,48 @@
   border-top: 2px solid var(--line-strong);
 }
 
+/* --- Integritas ujian --------------------------------------------------- */
+.integrity {
+  margin: 16px 24px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  background: #fbfcfe;
+}
+.integrity.is-clean { background: var(--success-soft); border-color: var(--success-line); }
+.integrity.is-flagged { background: var(--warning-soft); border-color: #f3ddb8; }
+.integrity__head { display: flex; align-items: flex-start; gap: 10px; }
+.integrity__head b { display: block; font-size: 13.5px; }
+.integrity__head span { font-size: 12.5px; color: var(--muted); }
+.integrity__badge {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--success);
+}
+.is-flagged .integrity__badge { background: var(--warning); }
+.integrity__list {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #e6d7bb;
+  display: grid;
+  gap: 4px;
+}
+.integrity__list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.integrity__list b { font-family: var(--font-mono); color: var(--warning); }
+
 /* --- Aksi --------------------------------------------------------------- */
 .actions {
   display: flex;

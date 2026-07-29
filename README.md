@@ -27,6 +27,7 @@ Satu halaman `quiz.html` melayani **semua** quiz, satu `print.html` melayani sem
 │
 ├── js/
 │   ├── common.js         # Loader JSON, penilaian, localStorage, format tanggal
+│   ├── proctor.js        # Mode ujian: layar penuh, anti-salin, pencatat pelanggaran
 │   ├── app.js            # Beranda
 │   ├── quiz.js
 │   ├── result.js
@@ -161,6 +162,7 @@ Bentuk lengkap manifest-nya:
 | `level` | – | Badge level pada halaman quiz & lembar cetak (mis. `N3`) |
 | `passingScore` | – | Batas lulus dalam **poin**. Default: 60% dari total poin |
 | `collectName` | – | `false` untuk menyembunyikan input nama |
+| `proctor` | – | `false` untuk mematikan mode ujian (layar penuh & anti-salin) |
 | `questions` | ya | Daftar soal |
 
 ### Tipe soal
@@ -238,6 +240,30 @@ Bentuk lengkap manifest-nya:
 | `explanation` | Pembahasan di halaman hasil |
 
 ---
+
+## Mode ujian
+
+Halaman quiz dibuka dengan layar mulai (gate): nama peserta, daftar aturan, dan tombol besar **Mulai & masuk layar penuh**. Soal baru dirender setelah layar penuh aktif — jadi tidak bisa dibaca sebelum ujian dimulai.
+
+Selama ujian berjalan:
+
+| Kejadian | Perlakuan |
+| --- | --- |
+| Keluar dari layar penuh (Esc/F11) | Ujian dijeda, seluruh konten diburamkan, muncul tombol kembali |
+| Pindah tab / minimize | Dijeda + dicatat sebagai pelanggaran |
+| Jendela kehilangan fokus (alt-tab) | Konten diburamkan, **tidak** dihitung pelanggaran |
+| Blok teks, klik kanan, drag, Ctrl+C/X/A | Diblokir + dicatat |
+| Ctrl+P / Ctrl+S / PrintScreen | Diblokir, clipboard ditimpa, halaman kosong saat dicetak |
+
+Jumlah pelanggaran tampil real-time di bar atas soal, ikut tersimpan bersama hasil, dan muncul sebagai blok **integritas** di halaman hasil.
+
+Matikan mode ujian per materi lewat file JSON-nya:
+
+```json
+{ "proctor": false }
+```
+
+**Batasnya perlu jujur:** semua penjagaan ini berjalan di browser peserta, jadi sifatnya pencegah, bukan pengaman. Peserta yang paham DevTools tetap bisa melewatinya, dan tangkapan layar lewat aplikasi OS (Win+Shift+S, tombol screenshot HP, kamera ponsel) tidak bisa dicegah oleh halaman web mana pun. Yang bisa diandalkan adalah pencatatannya — pelanggaran terekam di hasil.
 
 ## Sertifikat
 

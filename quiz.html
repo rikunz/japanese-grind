@@ -45,7 +45,28 @@
   </div>
 </footer>
 
+<!-- Lapisan jeda ujian -->
+<div class="exam-overlay" id="examOverlay" hidden>
+  <div class="exam-overlay__card">
+    <div class="exam-overlay__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/>
+      </svg>
+    </div>
+    <h2 id="examTitle">Ujian dijeda</h2>
+    <p id="examDesc">Kembali ke layar penuh untuk melanjutkan.</p>
+    <ul class="exam-log" id="examLog"></ul>
+    <div class="btn-row" style="justify-content:center">
+      <button type="button" class="btn btn--primary btn--lg" id="examResume">Kembali ke layar penuh</button>
+      <button type="button" class="btn btn--ghost" id="examQuit">Keluar dari ujian</button>
+    </div>
+  </div>
+</div>
+
+<div class="exam-print-block">Lembar ujian tidak dapat dicetak selama mode ujian berjalan.</div>
+
 <script src="js/common.js"></script>
+<script src="js/proctor.js"></script>
 <script src="js/quiz.js"></script>
 </body>
 </html>

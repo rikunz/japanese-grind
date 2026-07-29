@@ -87,6 +87,7 @@
         '</div>' +
 
         sectionTable(r) +
+        integrity(r) +
 
         (r.passed ? '' :
           '<p class="locked-note">Sertifikat terbit bila skor mencapai ' + r.passingScore +
@@ -147,6 +148,34 @@
         '<td class="num">' + r.score + ' / ' + r.total + '</td>' +
       '</tr></tfoot>' +
     '</table>';
+  }
+
+  function integrity(r) {
+    var p = r.proctor;
+    if (!p) return '';
+    var labels = window.NC.PROCTOR_LABELS || {
+      fullscreen: 'Keluar dari layar penuh', tab: 'Pindah tab atau jendela',
+      copy: 'Percobaan menyalin teks', capture: 'Percobaan tangkapan layar / cetak'
+    };
+    var rows = Object.keys(p.counts || {})
+      .filter(function (k) { return p.counts[k] > 0; })
+      .map(function (k) {
+        return '<li><span>' + NC.esc(labels[k] || k) + '</span><b>' + p.counts[k] + '×</b></li>';
+      });
+
+    var clean = !rows.length;
+    return '<div class="integrity' + (clean ? ' is-clean' : ' is-flagged') + '">' +
+      '<div class="integrity__head">' +
+        '<span class="integrity__badge">' + (clean ? '✓' : '!') + '</span>' +
+        '<div>' +
+          '<b>' + (clean ? 'Tidak ada pelanggaran tercatat' : 'Catatan pelanggaran ujian') + '</b>' +
+          '<span>' + (p.fullscreen
+            ? 'Dikerjakan dalam mode ujian layar penuh.'
+            : 'Mode ujian berjalan tanpa layar penuh (tidak didukung browser).') + '</span>' +
+        '</div>' +
+      '</div>' +
+      (rows.length ? '<ul class="integrity__list">' + rows.join('') + '</ul>' : '') +
+    '</div>';
   }
 
   function optionLabel(d, value) {
