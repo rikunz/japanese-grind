@@ -1,0 +1,90 @@
+{
+  "id": "n3-week1-day2-kanji",
+  "title": "第1週-2日目（漢字）",
+  "description": "JLPT N3 Kanji Practice",
+  "level": "N3",
+  "passingScore": 7,
+  "totalQuestions": 8,
+  "collectName": true,
+  "questions": [
+    {
+      "id": 1,
+      "section": "問題１　漢字で書くと",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "この仕事にはけいけんが必要だ。「けいけん」を漢字で書くとどれですか。",
+      "options": ["径験", "経験", "経検", "軽験"],
+      "answer": 2,
+      "explanation": "経験（けいけん）= pengalaman."
+    },
+    {
+      "id": 2,
+      "section": "問題１　漢字で書くと",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "この件は私のせきにんです。「せきにん」を漢字で書くとどれですか。",
+      "options": ["責任", "積任", "責仕", "債任"],
+      "answer": 1,
+      "explanation": "責任（せきにん）= tanggung jawab."
+    },
+    {
+      "id": 3,
+      "section": "問題１　漢字で書くと",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "かんきょうを守る活動に参加した。「かんきょう」を漢字で書くとどれですか。",
+      "options": ["還境", "環鏡", "環境", "管境"],
+      "answer": 3,
+      "explanation": "環境（かんきょう）= lingkungan. 鏡（かがみ）= cermin, berbeda."
+    },
+    {
+      "id": 4,
+      "section": "問題１　漢字で書くと",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "この国は米をゆしゅつしている。「ゆしゅつ」を漢字で書くとどれですか。",
+      "options": ["輪出", "輸出", "輸山", "輪山"],
+      "answer": 2,
+      "explanation": "輸出（ゆしゅつ）= ekspor. 輪（わ）= lingkaran/roda, mirip tapi beda."
+    },
+    {
+      "id": 5,
+      "section": "問題２　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "困難な状況が続いている。「困難」の読み方はどれですか。",
+      "options": ["こんなん", "こまなん", "こんない", "くんなん"],
+      "answer": 1,
+      "explanation": "困難（こんなん）= kesulitan, situasi sulit."
+    },
+    {
+      "id": 6,
+      "section": "問題２　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "外国人の観光客が増えている。「増えて」の読み方はどれですか。",
+      "options": ["ふえて", "まえて", "そえて", "かえて"],
+      "answer": 1,
+      "explanation": "増える（ふえる）= bertambah. Bacaan on-yomi「ぞう」muncul pada 増加（ぞうか）."
+    },
+    {
+      "id": 7,
+      "section": "問題２　よみかた",
+      "type": "multiple-choice",
+      "points": 2,
+      "question": "この地域は発達が早い。「発達」の読み方はどれですか。",
+      "options": ["はつたつ", "はったつ", "はつだつ", "ほったつ"],
+      "answer": 2,
+      "explanation": "発達（はったつ）= perkembangan. 発 berubah menjadi「はっ」sebelum た行."
+    },
+    {
+      "id": 8,
+      "section": "問題３　きにゅう",
+      "type": "text",
+      "points": 2,
+      "question": "「けっか」を漢字で書きなさい。（例：試験の〇〇）",
+      "answer": ["結果"],
+      "explanation": "結果（けっか）= hasil."
+    }
+  ]
+}

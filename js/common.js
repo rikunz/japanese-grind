@@ -73,9 +73,11 @@
 
   /* --- Kode & nomor sertifikat ------------------------------------------ */
   function slugCode(slug) {
-    var m = /week\s*(\d+)[/\-]day\s*(\d+)/i.exec(slug || '');
-    if (m) return 'W' + m[1] + 'D' + m[2];
-    return String(slug || 'QZ').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6) || 'QZ';
+    var level = /^([a-z]+\d+)\//i.exec(slug || '');
+    var wd = /week\s*(\d+)[/\-]day\s*(\d+)/i.exec(slug || '');
+    var code = (level ? level[1].toUpperCase() : '') + (wd ? 'W' + wd[1] + 'D' + wd[2] : '');
+    if (code) return code;
+    return String(slug || 'QZ').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || 'QZ';
   }
 
   function certNumber(slug, date, seq) {
@@ -111,6 +113,32 @@
 
   async function loadManifest() {
     return loadJSON('data/manifest.json');
+  }
+
+  /* Struktur manifest: levels[] -> weeks[] -> days[].
+     Format lama (weeks[] di akar) tetap didukung. */
+  function levels(manifest) {
+    if (manifest && Array.isArray(manifest.levels)) return manifest.levels;
+    if (manifest && Array.isArray(manifest.weeks)) {
+      return [{ id: '', title: '', subtitle: '', weeks: manifest.weeks }];
+    }
+    return [];
+  }
+
+  function eachDay(manifest, fn) {
+    levels(manifest).forEach(function (level) {
+      (level.weeks || []).forEach(function (week) {
+        (week.days || []).forEach(function (day) { fn(day, week, level); });
+      });
+    });
+  }
+
+  function findDay(manifest, slug) {
+    var found = null;
+    eachDay(manifest, function (day, week, level) {
+      if (day.slug === slug) found = { day: day, week: week, level: level };
+    });
+    return found;
   }
 
   async function loadQuiz(slug) {
@@ -307,6 +335,9 @@
     loadJSON: loadJSON,
     loadManifest: loadManifest,
     loadQuiz: loadQuiz,
+    levels: levels,
+    eachDay: eachDay,
+    findDay: findDay,
     grade: grade,
     isCorrect: isCorrect,
     getProgress: getProgress,

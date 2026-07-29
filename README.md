@@ -37,14 +37,17 @@ Satu halaman `quiz.html` melayani **semua** quiz, satu `print.html` melayani sem
 │   └── logo.svg
 │
 └── data/
-    ├── manifest.json     # Daftar minggu & hari yang tampil di beranda
-    ├── week1/
-    │   ├── day1-kotoba.json
-    │   ├── day2-kanji.json
-    │   └── day3-bunpou.json
-    └── week2/
-        └── day1-dokkai.json
+    ├── manifest.json     # Daftar level → minggu → hari yang tampil di beranda
+    └── n3/               # satu folder per level (baru ada N3)
+        ├── week1/
+        │   ├── day1-kotoba.json
+        │   ├── day2-kanji.json
+        │   └── day3-bunpou.json
+        └── week2/
+            └── day1-dokkai.json
 ```
+
+Data disusun **level → minggu → hari**. Menambah level baru cukup membuat folder `data/n2/…` lalu mendaftarkannya di `manifest.json`; beranda otomatis menampilkan tab level baru.
 
 ## Alur
 
@@ -56,14 +59,15 @@ index.html  →  quiz.html?quiz=…  →  result.html?quiz=…  ┬→ certifica
 | Halaman | URL |
 | --- | --- |
 | Beranda | `/` |
-| Quiz | `/quiz.html?quiz=week1/day3-bunpou` |
-| Hasil | `/result.html?quiz=week1/day3-bunpou` |
-| Sertifikat | `/certificate.html?quiz=week1/day3-bunpou` |
-| Sertifikat (manual) | `/certificate.html?quiz=week1/day3-bunpou&name=Thoriq&score=8&total=10&date=2026-07-29` |
-| Lembar soal | `/print.html?quiz=week1/day3-bunpou` |
-| Lembar soal + kunci | `/print.html?quiz=week1/day3-bunpou&key=1` |
+| Beranda (level tertentu) | `/index.html?level=n3` |
+| Quiz | `/quiz.html?quiz=n3/week1/day3-bunpou` |
+| Hasil | `/result.html?quiz=n3/week1/day3-bunpou` |
+| Sertifikat | `/certificate.html?quiz=n3/week1/day3-bunpou` |
+| Sertifikat (manual) | `/certificate.html?quiz=n3/week1/day3-bunpou&name=Thoriq&score=8&total=10&date=2026-07-29` |
+| Lembar soal | `/print.html?quiz=n3/week1/day3-bunpou` |
+| Lembar soal + kunci | `/print.html?quiz=n3/week1/day3-bunpou&key=1` |
 
-`?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`.
+`?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`, yaitu `level/week/day`.
 
 ---
 
@@ -98,34 +102,51 @@ Situs tersedia di `https://<username>.github.io/nihonggo-club/` sekitar satu men
 
 ## Menambah materi baru
 
-**1. Buat file JSON**, misalnya `data/week2/day2-kanji.json`.
+**1. Buat file JSON**, misalnya `data/n3/week2/day2-kanji.json`.
 
-**2. Daftarkan di `data/manifest.json`:**
+**2. Daftarkan di `data/manifest.json`** pada level dan minggu yang sesuai:
 
 ```json
 {
-  "slug": "week2/day2-kanji",
+  "slug": "n3/week2/day2-kanji",
   "day": "Day 2",
   "title": "漢字",
-  "subtitle": "Kanji tema keluarga",
+  "subtitle": "Kanji tema pekerjaan",
   "tag": "漢字",
-  "level": "N4",
   "questions": 8,
   "points": 10,
   "passing": 7
 }
 ```
 
-Tidak ada kode HTML/JS yang perlu diubah.
+Bentuk lengkap manifest-nya:
+
+```json
+{
+  "brand": { "...": "..." },
+  "levels": [
+    {
+      "id": "n3",
+      "title": "N3",
+      "subtitle": "Kelas menengah — JLPT N3",
+      "weeks": [
+        { "id": "week1", "title": "第1週", "subtitle": "Week 1 · Dasar N3", "days": [ ... ] }
+      ]
+    }
+  ]
+}
+```
+
+`id` level dipakai sebagai nama folder **dan** awalan slug (`n3/…`). Menambah level baru = buat folder `data/n2/`, tambahkan satu objek level di `levels`. Tidak ada kode HTML/JS yang perlu diubah.
 
 ## Format file quiz
 
 ```json
 {
-  "id": "week1-day3-bunpou",
+  "id": "n3-week1-day3-bunpou",
   "title": "第1週-3日目（文法）",
-  "description": "JLPT Grammar Practice",
-  "level": "N4",
+  "description": "JLPT N3 Grammar Practice",
+  "level": "N3",
   "passingScore": 6,
   "totalQuestions": 8,
   "collectName": true,
@@ -137,7 +158,7 @@ Tidak ada kode HTML/JS yang perlu diubah.
 | --- | --- | --- |
 | `title` | ya | Judul yang tampil di quiz, hasil, dan sertifikat |
 | `description` | – | Subjudul |
-| `level` | – | Badge (N5, N4, …) |
+| `level` | – | Badge level pada halaman quiz & lembar cetak (mis. `N3`) |
 | `passingScore` | – | Batas lulus dalam **poin**. Default: 60% dari total poin |
 | `collectName` | – | `false` untuk menyembunyikan input nama |
 | `questions` | ya | Daftar soal |
@@ -221,7 +242,7 @@ Tidak ada kode HTML/JS yang perlu diubah.
 ## Sertifikat
 
 * Terbit otomatis bila `score >= passingScore`; jika belum, halaman menampilkan status terkunci beserta selisih poinnya.
-* Nomor sertifikat dibuat otomatis dengan pola `NC-W1D3-20260729-001` (kode minggu/hari · tanggal · percobaan ke-n).
+* Nomor sertifikat dibuat otomatis dengan pola `NC-N3W1D3-20260729-001` (level · minggu/hari · tanggal · percobaan ke-n).
 * Ukuran **A4 landscape**. Saat `Ctrl + P`: pilih A4, orientasi Landscape, dan aktifkan **Background graphics**.
 * Nama penanda tangan dan penerbit diatur di `data/manifest.json` → `brand.issuer`, `brand.signerName`, `brand.signerRole`.
 

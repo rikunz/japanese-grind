@@ -1,0 +1,95 @@
+{
+  "id": "n3-week1-day1-kotoba",
+  "title": "第1週-1日目（語彙）",
+  "description": "JLPT N3 Vocabulary Practice",
+  "level": "N3",
+  "passingScore": 7,
+  "totalQuestions": 8,
+  "collectName": true,
+  "questions": [
+    {
+      "id": 1,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "事故のため、道路が渋滞している。「渋滞」の読み方はどれですか。",
+      "options": ["じゅうたい", "しぶたい", "じゅったい", "しゅうたい"],
+      "answer": 1,
+      "explanation": "渋滞（じゅうたい）= macet. 渋 dibaca「じゅう」pada kata ini."
+    },
+    {
+      "id": 2,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "アルバイトを募集しています。「募集」の読み方はどれですか。",
+      "options": ["ぼしゅう", "ほしゅう", "ぼしゅ", "もしゅう"],
+      "answer": 1,
+      "explanation": "募集（ぼしゅう）= merekrut / membuka lowongan. Bandingkan 補習（ほしゅう）= pelajaran tambahan."
+    },
+    {
+      "id": 3,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "もう少し我慢してください。「我慢」の読み方はどれですか。",
+      "options": ["がまん", "かまん", "われまん", "がばん"],
+      "answer": 1,
+      "explanation": "我慢（がまん）= menahan diri, bersabar."
+    },
+    {
+      "id": 4,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "彼はこの町の歴史に詳しい。「詳しい」の読み方はどれですか。",
+      "options": ["くわしい", "こまかしい", "しょうしい", "ただしい"],
+      "answer": 1,
+      "explanation": "詳しい（くわしい）= paham betul, rinci."
+    },
+    {
+      "id": 5,
+      "section": "問題２　いみ・つかいかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "彼の説明は（　　　　）ので、初めて聞く人にもよく分かった。",
+      "options": ["あいまいだった", "そっくりだった", "具体的だった", "しつこかった"],
+      "answer": 3,
+      "explanation": "具体的（ぐたいてき）= konkret, ada contoh jelasnya. 「あいまい」justru berarti samar."
+    },
+    {
+      "id": 6,
+      "section": "問題２　いみ・つかいかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "「あきらめる」と意味がいちばん近いのはどれですか。",
+      "options": ["途中でやめる", "最後までがんばる", "ゆっくり休む", "もう一度やってみる"],
+      "answer": 1,
+      "explanation": "諦（あきら）める = menyerah, berhenti di tengah jalan."
+    },
+    {
+      "id": 7,
+      "section": "問題３　いいかえ",
+      "type": "multiple-choice",
+      "points": 2,
+      "question": "この仕事は彼にふさわしい。意味が近い文はどれですか。",
+      "options": [
+        "この仕事は彼には難しすぎる。",
+        "この仕事は彼にちょうど合っている。",
+        "この仕事は彼にはつまらない。",
+        "この仕事を彼はやりたがらない。"
+      ],
+      "answer": 2,
+      "explanation": "ふさわしい = pantas, cocok, sesuai — paling dekat dengan「ちょうど合っている」."
+    },
+    {
+      "id": 8,
+      "section": "問題４　きにゅう",
+      "type": "text",
+      "points": 2,
+      "question": "「絶対」の読み方をひらがなで書きなさい。",
+      "answer": ["ぜったい"],
+      "explanation": "絶対（ぜったい）= mutlak, pasti. Perhatikan bunyi rangkap「っ」."
+    }
+  ]
+}

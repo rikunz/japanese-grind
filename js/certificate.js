@@ -67,18 +67,22 @@
   }
 
   function course(manifest, quiz) {
-    var found = null;
-    (manifest && manifest.weeks || []).forEach(function (w) {
-      (w.days || []).forEach(function (d) { if (d.slug === slug) found = { week: w, day: d }; });
-    });
+    var found = manifest ? NC.findDay(manifest, slug) : null;
     if (!found) {
       return { jp: quiz.title, en: quiz.description || '' };
     }
-    var weekNum = (/\d+/.exec(found.week.id) || [''])[0];
-    var dayLabel = found.day.day || '';
+    var levelTitle = found.level.title || quiz.level || '';
+    var weekNum = (/\d+/.exec(found.week.id || '') || [''])[0];
+    var parts = [levelTitle, found.week.title, found.day.title].filter(Boolean);
+    var en = [
+      levelTitle ? 'Level ' + levelTitle : '',
+      weekNum ? 'Week ' + weekNum : '',
+      found.day.day || ''
+    ].filter(Boolean).join(' · ');
+    var sub = found.day.subtitle || quiz.description || '';
     return {
-      jp: found.week.title + '　' + found.day.title,
-      en: 'Week ' + weekNum + ' · ' + dayLabel + ' — ' + (found.day.subtitle || quiz.description || '')
+      jp: parts.join('　'),
+      en: sub ? en + ' — ' + sub : en
     };
   }
 
