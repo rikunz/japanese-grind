@@ -144,7 +144,7 @@
   async function loadQuiz(slug) {
     if (!slug) {
       throw new NCError('Parameter ?quiz= belum diisi',
-        'Contoh: <code>quiz.html?quiz=week1/day3-bunpou</code>');
+        'Contoh: <code>quiz.html?quiz=n3/week1/day3-bunpou</code>');
     }
     if (!/^[a-z0-9][a-z0-9._/-]*$/i.test(slug) || slug.indexOf('..') !== -1) {
       throw new NCError('Nama quiz tidak valid', esc(slug));
@@ -307,6 +307,64 @@
     } catch (e) { /* noop */ }
   }
 
+  /* --- Pemilih materi (dipakai saat ?quiz= kosong) ---------------------- */
+  async function renderPicker(el, opts) {
+    if (!el) return;
+    opts = opts || {};
+    var page = opts.page || 'quiz.html';
+    var manifest;
+    try {
+      manifest = await loadManifest();
+    } catch (err) {
+      renderError(el, err);
+      return;
+    }
+
+    var groups = [];
+    levels(manifest).forEach(function (level) {
+      (level.weeks || []).forEach(function (week) {
+        var days = (week.days || []).filter(function (d) { return d && d.slug; });
+        if (!days.length) return;
+        groups.push({
+          label: [level.title || level.id, week.title || week.id].filter(Boolean).join(' · '),
+          sub: week.subtitle || '',
+          days: days
+        });
+      });
+    });
+
+    if (!groups.length) {
+      renderError(el, new NCError('Belum ada materi',
+        'Tambahkan level, minggu, dan hari pada <code>data/manifest.json</code>.'));
+      return;
+    }
+
+    el.innerHTML =
+      '<div class="picker-head">' +
+        '<h1>' + esc(opts.title || 'Pilih materi') + '</h1>' +
+        '<p>' + (opts.desc || '') + '</p>' +
+      '</div>' +
+      groups.map(function (g) {
+        return '<section class="picker-group">' +
+          '<div class="picker-group__head">' +
+            '<span class="jp">' + esc(g.label) + '</span>' +
+            (g.sub ? '<span class="picker-group__sub">' + esc(g.sub) + '</span>' : '') +
+          '</div>' +
+          g.days.map(function (d) {
+            return '<a class="picker-item" href="' + page + '?quiz=' + encodeURIComponent(d.slug) + '">' +
+              '<span class="badge badge--brand">' + esc(d.day || '—') + '</span>' +
+              '<span class="picker-item__text">' +
+                '<b class="jp">' + esc(d.title || d.slug) + '</b>' +
+                (d.subtitle ? '<span>' + esc(d.subtitle) + '</span>' : '') +
+              '</span>' +
+              (d.tag ? '<span class="badge jp">' + esc(d.tag) + '</span>' : '') +
+              '<span class="picker-item__go" aria-hidden="true">→</span>' +
+            '</a>';
+          }).join('') +
+        '</section>';
+      }).join('');
+  }
+
   /* --- Render error ----------------------------------------------------- */
   function renderError(el, err) {
     if (!el) return;
@@ -347,6 +405,7 @@
     setName: setName,
     saveResult: saveResult,
     resetProgress: resetProgress,
+    renderPicker: renderPicker,
     renderError: renderError
   };
 })(window);

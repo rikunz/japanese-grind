@@ -13,9 +13,16 @@
   init();
 
   async function init() {
-    if (slug) {
-      document.getElementById('printLink').href = 'print.html?quiz=' + encodeURIComponent(slug);
+    if (!slug) {
+      document.getElementById('printLink').classList.add('hidden');
+      NC.renderPicker(app, {
+        page: 'quiz.html',
+        title: 'Pilih materi latihan',
+        desc: 'Halaman quiz dibuka tanpa parameter <code>?quiz=</code>. Pilih salah satu materi di bawah ini.'
+      });
+      return;
     }
+    document.getElementById('printLink').href = 'print.html?quiz=' + encodeURIComponent(slug);
     try {
       quiz = await NC.loadQuiz(slug);
     } catch (err) {

@@ -67,7 +67,7 @@ index.html  →  quiz.html?quiz=…  →  result.html?quiz=…  ┬→ certifica
 | Lembar soal | `/print.html?quiz=n3/week1/day3-bunpou` |
 | Lembar soal + kunci | `/print.html?quiz=n3/week1/day3-bunpou&key=1` |
 
-`?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`, yaitu `level/week/day`.
+`?quiz=` selalu berisi path relatif terhadap `data/` **tanpa** `.json`, yaitu `level/week/day`. Kalau halaman quiz/hasil/sertifikat/cetak dibuka tanpa `?quiz=`, halaman menampilkan daftar materi untuk dipilih — bukan error.
 
 ---
 

@@ -13,6 +13,14 @@
   init();
 
   async function init() {
+    if (!slug) {
+      NC.renderPicker(app, {
+        page: 'print.html',
+        title: 'Pilih lembar soal',
+        desc: 'Halaman cetak dibuka tanpa parameter <code>?quiz=</code>. Pilih materi yang mau dicetak.'
+      });
+      return;
+    }
     var quiz;
     try {
       quiz = await NC.loadQuiz(slug);

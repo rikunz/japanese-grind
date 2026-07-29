@@ -9,8 +9,11 @@
   var result = slug ? NC.getResult(slug) : null;
 
   if (!slug) {
-    NC.renderError(app, new NC.NCError('Parameter ?quiz= belum diisi',
-      'Contoh: <code>result.html?quiz=week1/day3-bunpou</code>'));
+    NC.renderPicker(app, {
+      page: 'result.html',
+      title: 'Pilih hasil latihan',
+      desc: 'Halaman hasil dibuka tanpa parameter <code>?quiz=</code>. Pilih materi yang mau dilihat hasilnya.'
+    });
     return;
   }
 
