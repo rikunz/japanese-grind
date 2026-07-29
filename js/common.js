@@ -61,8 +61,20 @@
     return encodeURIComponent(String(slug == null ? '' : slug)).replace(/%2F/gi, '/');
   }
 
-  function href(page, slug, params) {
-    var url = page + '?quiz=' + encodeSlug(slug);
+  /* Bentuk tautan antar halaman:
+       'clean' → quiz?quiz=…       (default; jalan di `npx serve` dan GitHub Pages,
+                                    yang keduanya memetakan /quiz ke quiz.html)
+       'html'  → quiz.html?quiz=…  (untuk server statis yang tidak memetakan /quiz)
+     Ubah satu baris ini kalau hosting-mu butuh ekstensi. */
+  var LINK_STYLE = 'clean';
+
+  function page(name) {
+    if (name === 'index') return LINK_STYLE === 'html' ? 'index.html' : './';
+    return LINK_STYLE === 'html' ? name + '.html' : name;
+  }
+
+  function href(name, slug, params) {
+    var url = page(name) + '?quiz=' + encodeSlug(slug);
     if (params) {
       Object.keys(params).forEach(function (key) {
         if (params[key] == null || params[key] === '') return;
@@ -172,7 +184,7 @@
   async function loadQuiz(slug) {
     if (!slug) {
       throw new NCError('Parameter ?quiz= belum diisi',
-        'Contoh: <code>quiz.html?quiz=n3/week1/day3-bunpou</code>');
+        'Contoh: <code>quiz?quiz=n3/week1/day3-bunpou</code>');
     }
     if (!/^[a-z0-9][a-z0-9._/-]*$/i.test(slug) || slug.indexOf('..') !== -1) {
       throw new NCError('Nama quiz tidak valid', esc(slug));
@@ -339,7 +351,7 @@
   async function renderPicker(el, opts) {
     if (!el) return;
     opts = opts || {};
-    var page = opts.page || 'quiz.html';
+    var target = opts.page || 'quiz';
     var manifest;
     try {
       manifest = await loadManifest();
@@ -379,7 +391,7 @@
             (g.sub ? '<span class="picker-group__sub">' + esc(g.sub) + '</span>' : '') +
           '</div>' +
           g.days.map(function (d) {
-            return '<a class="picker-item" href="' + page + '?quiz=' + encodeSlug(d.slug) + '">' +
+            return '<a class="picker-item" href="' + href(target, d.slug) + '">' +
               '<span class="badge badge--brand">' + esc(d.day || '—') + '</span>' +
               '<span class="picker-item__text">' +
                 '<b class="jp">' + esc(d.title || d.slug) + '</b>' +
@@ -402,7 +414,7 @@
       '<div class="state state--error">' +
         '<div class="state__title">' + esc(title) + '</div>' +
         '<div class="state__desc">' + detail + '</div>' +
-        '<a class="btn btn--outline" href="index.html">Kembali ke beranda</a>' +
+        '<a class="btn btn--outline" href="' + page('index') + '">Kembali ke beranda</a>' +
       '</div>';
   }
 
@@ -414,6 +426,7 @@
     esc: esc,
     circled: circled,
     encodeSlug: encodeSlug,
+    page: page,
     href: href,
     clamp: clamp,
     isoDate: isoDate,

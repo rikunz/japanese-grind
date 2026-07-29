@@ -13,7 +13,7 @@
   async function init() {
     if (!slug) {
       NC.renderPicker(app, {
-        page: 'certificate.html',
+        page: 'certificate',
         title: 'Pilih sertifikat',
         desc: 'Sertifikat terbit per materi. Pilih materi yang sudah kamu selesaikan.'
       });
@@ -98,9 +98,9 @@
 
     return '' +
     '<div class="cert-toolbar">' +
-      '<a class="btn btn--outline btn--sm" href="result.html?quiz=' + NC.encodeSlug(slug) + '">← Kembali ke hasil</a>' +
+      '<a class="btn btn--outline btn--sm" href="' + NC.href('result', slug) + '">← Kembali ke hasil</a>' +
       '<div class="spacer"></div>' +
-      '<a class="btn btn--ghost btn--sm" href="index.html">Beranda</a>' +
+      '<a class="btn btn--ghost btn--sm" href="' + NC.page('index') + '">Beranda</a>' +
       '<button type="button" class="btn btn--primary btn--sm" id="printCert">Cetak / Simpan PDF</button>' +
     '</div>' +
 
@@ -192,8 +192,8 @@
       '<div class="state__desc">Belum ada hasil untuk latihan ini di browser ini. ' +
         'Kerjakan quiz-nya dulu, sertifikat terbit otomatis jika skormu memenuhi batas lulus.</div>' +
       '<div class="btn-row" style="justify-content:center">' +
-        '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Kerjakan quiz</a>' +
-        '<a class="btn btn--outline" href="index.html">Beranda</a>' +
+        '<a class="btn btn--primary" href="' + NC.href('quiz', slug) + '">Kerjakan quiz</a>' +
+        '<a class="btn btn--outline" href="' + NC.page('index') + '">Beranda</a>' +
       '</div>' +
     '</div>';
   }
@@ -208,8 +208,8 @@
         '<div><div class="k">Batas lulus</div><div class="v">' + passing + '/' + total + '</div></div>' +
       '</div>' +
       '<div class="btn-row" style="justify-content:center">' +
-        '<a class="btn btn--primary" href="quiz.html?quiz=' + NC.encodeSlug(slug) + '">Coba lagi</a>' +
-        '<a class="btn btn--outline" href="result.html?quiz=' + NC.encodeSlug(slug) + '">Lihat pembahasan</a>' +
+        '<a class="btn btn--primary" href="' + NC.href('quiz', slug) + '">Coba lagi</a>' +
+        '<a class="btn btn--outline" href="' + NC.href('result', slug) + '">Lihat pembahasan</a>' +
       '</div>' +
     '</div>';
   }
