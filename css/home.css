@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Nihonggo Club — beranda
+   ========================================================================== */
+
+.hero { margin-bottom: 22px; }
+.hero__title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+.hero__sub {
+  color: var(--muted);
+  font-size: 14.5px;
+  margin-top: 6px;
+  max-width: 620px;
+}
+
+/* --- Stat strip --------------------------------------------------------- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.stat { background: var(--card); padding: 14px 16px; }
+.stat__label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.stat__value {
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: -0.02em;
+  color: var(--ocean-deep);
+  margin-top: 2px;
+}
+.stat__unit { font-size: 14px; color: var(--muted); font-weight: 500; }
+
+/* --- Week --------------------------------------------------------------- */
+.week { margin-bottom: 32px; }
+.week__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid var(--line);
+}
+.week__title {
+  font-family: var(--font-jp);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.week__sub { font-size: 13px; color: var(--muted); }
+.week__count { margin-left: auto; font-size: 12.5px; color: var(--muted); }
+
+.day-list { display: grid; gap: 10px; }
+
+.day-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--icy-blue);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.day-card:hover {
+  border-color: var(--line-strong);
+  border-left-color: var(--dodger-blue);
+  box-shadow: var(--shadow);
+}
+.day-card.is-passed { border-left-color: var(--success); }
+.day-card.is-failed { border-left-color: var(--warning); }
+
+.day-card__main { flex: 1; min-width: 0; }
+.day-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.day-card__title {
+  font-family: var(--font-jp);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.day-card__sub { font-size: 13.5px; color: var(--ink-soft); margin-top: 2px; }
+.day-card__meta {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.day-card__side {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: none;
+}
+.day-score { text-align: right; min-width: 74px; }
+.day-score__value {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.day-score__value.is-pass { color: var(--success); }
+.day-score__value.is-fail { color: var(--warning); }
+.day-score__note { font-size: 11.5px; color: var(--muted); }
+.day-card__actions { display: flex; gap: 8px; }
+
+@media (max-width: 760px) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .day-card { flex-direction: column; align-items: stretch; gap: 14px; }
+  .day-card__side { justify-content: space-between; }
+  .day-score { text-align: left; }
+  .day-card__actions { flex-wrap: wrap; justify-content: flex-end; }
+}

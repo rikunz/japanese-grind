@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nihonggo Club — Latihan Bahasa Jepang</title>
+<meta name="description" content="Kumpulan latihan bahasa Jepang harian: kosakata, kanji, tata bahasa, dan bacaan. Kerjakan, lihat hasil, cetak soal, dan unduh sertifikat.">
+<link rel="icon" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+<div class="accent-bar"></div>
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html">
+      <img src="assets/logo.svg" alt="">
+      <span>
+        <span class="brand__name">NIHONGGO CLUB</span><br>
+        <span class="brand__jp">にほんごクラブ</span>
+      </span>
+    </a>
+    <nav class="site-nav">
+      <button type="button" class="btn btn--ghost btn--sm" id="resetProgress">Reset progres</button>
+    </nav>
+  </div>
+</header>
+
+<main class="site-main">
+  <div class="container">
+
+    <section class="hero">
+      <p class="page-head__eyebrow">Japanese Practice Class</p>
+      <h1 class="hero__title">Latihan harian bahasa Jepang</h1>
+      <p class="hero__sub" id="tagline">Kosakata, kanji, tata bahasa, dan bacaan — dikerjakan langsung di browser.</p>
+    </section>
+
+    <section class="stats" id="stats" hidden>
+      <div class="stat">
+        <div class="stat__label">Selesai</div>
+        <div class="stat__value" id="statDone">0<span class="stat__unit" id="statTotal">/0</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Rata-rata skor</div>
+        <div class="stat__value" id="statAvg">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Lulus</div>
+        <div class="stat__value" id="statPass">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat__label">Sertifikat</div>
+        <div class="stat__value" id="statCert">0</div>
+      </div>
+    </section>
+
+    <div id="app">
+      <p class="skeleton-note">Memuat daftar materi…</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <span>Nihonggo Club · Latihan mandiri, bukan lembaga ujian resmi.</span>
+    <span>Progres tersimpan di browser ini saja (localStorage).</span>
+  </div>
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
