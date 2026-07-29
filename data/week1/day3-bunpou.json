@@ -1,0 +1,135 @@
+{
+  "id": "week1-day3-bunpou",
+  "title": "第1週-3日目（文法）",
+  "description": "JLPT Grammar Practice",
+  "level": "N4",
+  "passingScore": 6,
+  "totalQuestions": 8,
+  "collectName": true,
+  "questions": [
+    {
+      "id": 1,
+      "section": "問題１",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "ていねいに話さないと、こども（　　　　）よ",
+      "options": [
+        "みたいだ",
+        "らしい",
+        "そう",
+        "よう"
+      ],
+      "answer": 3,
+      "explanation": "Kunci: 「そう」. Pola 「〜そう」 menyatakan kesan yang tampak dari luar — terkesan seperti anak kecil."
+    },
+    {
+      "id": 2,
+      "section": "問題１",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "あそこのgorenganは、油（　　　　）、おいしくない。",
+      "options": [
+        "らしくて",
+        "たくさんで",
+        "みたいで",
+        "っぽくて"
+      ],
+      "answer": 4,
+      "explanation": "「〜っぽい」dipakai untuk kesan negatif/berlebihan: 油っぽい = terlalu berminyak."
+    },
+    {
+      "id": 3,
+      "section": "問題１",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "もっと先生（　　　　）ふくそをしてください。",
+      "options": [
+        "みたいな",
+        "らしい",
+        "っぽい",
+        "ような"
+      ],
+      "answer": 4,
+      "explanation": "「先生のような服装」= pakaian seperti (layaknya) seorang guru — 「ような」 menerangkan kata benda berikutnya."
+    },
+    {
+      "id": 4,
+      "section": "問題１",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "私のそぼは、東京の下町でそだったせいか、（　　　）話し方をする。",
+      "options": [
+        "男らしい",
+        "男みたい",
+        "男っぽい",
+        "男のよう"
+      ],
+      "answer": 3,
+      "explanation": "「男っぽい話し方」= gaya bicara yang terkesan kelaki-lakian. 「男らしい」 bernuansa pujian untuk laki-laki, kurang cocok di sini."
+    },
+    {
+      "id": 5,
+      "section": "問題２",
+      "type": "order",
+      "points": 1,
+      "instruction": "★に入るものを選びなさい。",
+      "sentence": "________ ________ ________ ____★____ でした。",
+      "options": [
+        "あたたかい",
+        "春らしい",
+        "日",
+        "今日は"
+      ],
+      "answer": 3,
+      "explanation": "Urutan benar: 今日は → 春らしい → あたたかい → 日 でした。Posisi ★ diisi 「日」."
+    },
+    {
+      "id": 6,
+      "section": "問題２",
+      "type": "order",
+      "points": 1,
+      "instruction": "★に入るものを選びなさい。",
+      "sentence": "日本の ________ ________ ____★____ ________ むりみたいです。",
+      "options": [
+        "けど",
+        "しけんを",
+        "うけた",
+        "ごうかくは"
+      ],
+      "answer": 4,
+      "explanation": "Urutan benar: 日本の しけんを うけた けど ごうかくは むりみたいです。★ diisi 「ごうかくは」."
+    },
+    {
+      "id": 7,
+      "section": "問題３",
+      "type": "multiple-choice",
+      "points": 2,
+      "context": "日本語の勉強をがんばって、日本人みたいに話せる⑦なりたい。",
+      "question": "⑦",
+      "options": [
+        "に",
+        "と",
+        "ように",
+        "ために"
+      ],
+      "answer": 1,
+      "explanation": "Kunci: 「に」. Pola 「〜になりたい」 menyatakan keinginan berubah menjadi suatu keadaan — ingin bisa berbicara seperti orang Jepang."
+    },
+    {
+      "id": 8,
+      "section": "問題３",
+      "type": "multiple-choice",
+      "points": 2,
+      "context": "教科書の話し方⑧、日本人っぽい話し方ができたら、きっと日本の生活も楽しくなると思う。",
+      "question": "⑧",
+      "options": [
+        "じゃないで",
+        "じゃなくて",
+        "として",
+        "たり"
+      ],
+      "answer": 3,
+      "explanation": "「〜として」= sebagai/dalam kapasitas —; menghubungkan cara bicara buku teks dengan cara bicara ala penutur asli."
+    }
+  ]
+}

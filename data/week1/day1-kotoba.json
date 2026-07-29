@@ -1,0 +1,95 @@
+{
+  "id": "week1-day1-kotoba",
+  "title": "第1週-1日目（語彙）",
+  "description": "Kosakata dasar: cara baca, makna, dan penggunaan",
+  "level": "N5",
+  "passingScore": 7,
+  "totalQuestions": 8,
+  "collectName": true,
+  "questions": [
+    {
+      "id": 1,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "毎朝、六時に　おきます。「毎朝」の　よみかたは　どれですか。",
+      "options": ["まいあさ", "まいちょう", "めいあさ", "まいばん"],
+      "answer": 1,
+      "explanation": "毎（まい）＋朝（あさ）＝まいあさ. 「まいばん」ditulis 毎晩."
+    },
+    {
+      "id": 2,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "きのう　病院へ　行きました。「病院」の　よみかたは　どれですか。",
+      "options": ["びよういん", "びょういん", "びょうえん", "びよいん"],
+      "answer": 2,
+      "explanation": "病院 = びょういん (rumah sakit). Perhatikan bunyi kecil 「ょ」; 「びよういん」berarti 美容院 (salon)."
+    },
+    {
+      "id": 3,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "来月、家族と　旅行します。「旅行」の　よみかたは　どれですか。",
+      "options": ["りょこう", "りょうこう", "りこう", "りょこ"],
+      "answer": 1,
+      "explanation": "旅行 = りょこう. Vokal panjang hanya pada 「こう」, bukan pada 「りょ」."
+    },
+    {
+      "id": 4,
+      "section": "問題１　よみかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "これは　大切な　しゃしんです。「大切」の　よみかたは　どれですか。",
+      "options": ["だいせつ", "たいさい", "たいせつ", "おおきり"],
+      "answer": 3,
+      "explanation": "大切 = たいせつ (penting/berharga)."
+    },
+    {
+      "id": 5,
+      "section": "問題２　いみ・つかいかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "この　みせは　いつも（　　　　）ので、はやく　来た　ほうが　いいです。",
+      "options": ["こんで　いる", "すいて　いる", "しずかな", "やすい"],
+      "answer": 1,
+      "explanation": "「こんでいる」= ramai/penuh, jadi wajar bila disarankan datang lebih awal. 「すいている」justru berarti sepi."
+    },
+    {
+      "id": 6,
+      "section": "問題２　いみ・つかいかた",
+      "type": "multiple-choice",
+      "points": 1,
+      "question": "「ちこくする」と　いみが　いちばん　ちかいのは　どれですか。",
+      "options": ["はやく　来る　こと", "おくれて　来る　こと", "来ない　こと", "休む　こと"],
+      "answer": 2,
+      "explanation": "遅刻（ちこく）する = datang terlambat."
+    },
+    {
+      "id": 7,
+      "section": "問題３　いいかえ",
+      "type": "multiple-choice",
+      "points": 2,
+      "question": "かれは　まじめな　人です。いみが　ちかい　文は　どれですか。",
+      "options": [
+        "かれは　よく　わらう　人です。",
+        "かれは　よく　はたらいて、しんけんな　人です。",
+        "かれは　おもしろい　人です。",
+        "かれは　しずかな　人です。"
+      ],
+      "answer": 2,
+      "explanation": "まじめ = serius, rajin, dapat diandalkan — paling dekat dengan 「よくはたらいて、しんけん」."
+    },
+    {
+      "id": 8,
+      "section": "問題４　きにゅう",
+      "type": "text",
+      "points": 2,
+      "question": "「明日」の　よみかたを　ひらがなで　書きなさい。",
+      "answer": ["あした", "あす"],
+      "explanation": "明日 dibaca あした (percakapan) atau あす (lebih formal). Keduanya diterima."
+    }
+  ]
+}

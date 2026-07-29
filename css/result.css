@@ -1,0 +1,327 @@
+/* ==========================================================================
+   Nihonggo Club — halaman hasil (gaya lembar 成績通知 JLPT)
+   ========================================================================== */
+
+.report {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+.report__stripe { height: 4px; background: var(--gradient-brand); }
+
+.report__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.report__eyebrow {
+  font-family: var(--font-jp);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--brilliant-azure);
+  margin-bottom: 6px;
+}
+.report__title {
+  font-family: var(--font-jp);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.report__desc { font-size: 13.5px; color: var(--muted); margin-top: 2px; }
+
+.report__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.meta-cell { background: #fbfcfe; padding: 10px 18px; }
+.meta-cell__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.meta-cell__value { font-size: 14px; font-weight: 600; margin-top: 1px; }
+.meta-cell__value .mono {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+/* --- Stempel lulus ------------------------------------------------------ */
+.stamp {
+  flex: none;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 68px;
+  border: 2.5px solid var(--ocean-deep);
+  border-radius: 6px;
+  color: var(--ocean-deep);
+  transform: rotate(-6deg);
+  background: rgba(255, 255, 255, 0.6);
+}
+.stamp__jp {
+  font-family: var(--font-jp);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+.stamp__en {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  margin-top: 4px;
+}
+.stamp--fail { border-color: var(--danger); color: var(--danger); }
+
+/* --- Skor --------------------------------------------------------------- */
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 22px 24px;
+  flex-wrap: wrap;
+}
+.score-main { flex: none; }
+.score-main__value {
+  font-family: var(--font-mono);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--cobalt-blue);
+}
+.score-main__value span { font-size: 22px; color: var(--muted); font-weight: 500; }
+.score-main__label {
+  font-family: var(--font-jp);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+}
+.score-gauge { flex: 1; min-width: 240px; }
+.score-gauge__top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+.score-gauge__top b { font-family: var(--font-mono); color: var(--ink); }
+.gauge {
+  position: relative;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--alice-blue);
+  border: 1px solid var(--icy-blue);
+  overflow: hidden;
+}
+.gauge__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cool-sky-2), var(--ocean-deep));
+}
+.gauge__fill.is-fail { background: linear-gradient(90deg, #f0a48c, var(--danger)); }
+.gauge__mark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--ink);
+  opacity: 0.55;
+}
+.score-gauge__note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+/* --- Tabel per bagian --------------------------------------------------- */
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.score-table caption {
+  text-align: left;
+  padding: 0 24px 10px;
+  font-family: var(--font-jp);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 0.04em;
+}
+.score-table th,
+.score-table td {
+  border-top: 1px solid var(--line);
+  padding: 10px 12px;
+  text-align: left;
+}
+.score-table th:first-child,
+.score-table td:first-child { padding-left: 24px; }
+.score-table th:last-child,
+.score-table td:last-child { padding-right: 24px; }
+.score-table thead th {
+  background: #f7f9fc;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.score-table td.num { font-family: var(--font-mono); text-align: right; white-space: nowrap; }
+.score-table .bar-cell { width: 34%; }
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--alice-blue);
+  overflow: hidden;
+}
+.bar span { display: block; height: 100%; background: var(--cool-sky-2); }
+.score-table tfoot td {
+  background: #f7f9fc;
+  font-weight: 700;
+  border-top: 2px solid var(--line-strong);
+}
+
+/* --- Aksi --------------------------------------------------------------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: #fbfcfe;
+}
+.actions .spacer { flex: 1; }
+.locked-note {
+  font-size: 12.5px;
+  color: var(--warning);
+  background: var(--warning-soft);
+  border: 1px solid #f3ddb8;
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  margin: 0 24px 16px;
+}
+
+/* --- Ringkasan jawaban -------------------------------------------------- */
+.answer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 16px 24px 4px;
+}
+.answer-chip {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-soft);
+  background: #fff;
+  text-decoration: none;
+  position: relative;
+}
+.answer-chip:hover { text-decoration: none; border-color: var(--dodger-blue); }
+.answer-chip.is-correct { background: var(--success-soft); border-color: var(--success-line); color: var(--success); }
+.answer-chip.is-wrong { background: var(--danger-soft); border-color: var(--danger-line); color: var(--danger); }
+
+/* --- Review ------------------------------------------------------------- */
+.review-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 26px 0 12px;
+}
+.review-head h2 {
+  font-family: var(--font-jp);
+  font-size: 17px;
+  font-weight: 700;
+}
+.review-head .rule { flex: 1; height: 1px; background: var(--line); }
+
+.review-item {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--success);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  scroll-margin-top: 80px;
+}
+.review-item.is-wrong { border-left-color: var(--danger); }
+.review-item__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.review-num {
+  width: 24px; height: 24px;
+  display: grid; place-items: center;
+  border-radius: 6px;
+  background: #eef2f7;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+.review-points { margin-left: auto; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+.review-q {
+  font-family: var(--font-jp);
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+.review-context {
+  font-family: var(--font-jp);
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  background: #f7f9fc;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  line-height: 1.8;
+}
+.review-ans {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  font-size: 13.5px;
+}
+.review-ans__row { display: flex; gap: 8px; }
+.review-ans__label { color: var(--muted); min-width: 116px; flex: none; }
+.review-ans__value { font-family: var(--font-jp); }
+.review-ans__value.is-wrong { color: var(--danger); }
+.review-ans__value.is-right { color: var(--success); font-weight: 600; }
+.review-exp {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+.review-exp b { color: var(--ocean-deep); }
+
+@media (max-width: 640px) {
+  .report__head { flex-wrap: wrap; }
+  .stamp { margin-left: 0; }
+  .score-main__value { font-size: 38px; }
+  .meta-cell, .score-table th:first-child, .score-table td:first-child { padding-left: 16px; }
+  .actions { padding: 14px 16px; }
+  .answer-grid { padding: 14px 16px 0; }
+}

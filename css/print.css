@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Nihonggo Club — lembar soal cetak (A4 potrait)
+   ========================================================================== */
+
+.print-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.print-toolbar .spacer { flex: 1; }
+
+.paper {
+  width: 100%;
+  max-width: 794px;              /* 210mm @ 96dpi */
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 18px 40px -26px rgba(13, 71, 161, 0.4);
+  padding: 26px 30px 34px;
+  color: #111;
+  font-family: var(--font-jp);
+}
+
+/* --- Kop lembar --------------------------------------------------------- */
+.paper-head {
+  border-bottom: 2px solid var(--cobalt-blue);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+.paper-head__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--ocean-deep);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.paper-head__top img { width: 20px; height: 20px; border-radius: 5px; }
+.paper-head__top .level {
+  margin-left: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  padding: 1px 8px;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+}
+.paper-title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+}
+.paper-sub {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.paper-fields {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 14px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+}
+.paper-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 1;
+}
+.paper-field span { color: #444; white-space: nowrap; font-weight: 600; }
+.paper-field i { flex: 1; border-bottom: 1px solid #999; height: 20px; display: block; }
+.paper-field--sm { flex: 0 0 150px; }
+
+.paper-notice {
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+.paper-notice b { color: #111; }
+
+/* --- Bagian & soal ------------------------------------------------------ */
+.p-section {
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #eef4fb;
+  border-left: 4px solid var(--twitter-blue);
+  padding: 5px 10px;
+  margin: 18px 0 10px;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+.p-passage {
+  border: 1px solid #999;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 13.5px;
+  line-height: 2.05;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.p-q {
+  margin-bottom: 13px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.p-q__text {
+  display: flex;
+  gap: 8px;
+  font-size: 13.5px;
+  line-height: 1.9;
+  margin-bottom: 6px;
+}
+.p-q__no {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  min-width: 20px;
+  flex: none;
+}
+.p-q__context,
+.p-q__sentence {
+  border: 1px solid #ccc;
+  background: #fafafa;
+  padding: 7px 10px;
+  margin: 0 0 7px 28px;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.p-q__instruction {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: #555;
+  margin: 0 0 5px 28px;
+}
+.p-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  margin-left: 28px;
+  font-size: 13px;
+}
+.p-option {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  min-width: 150px;
+  line-height: 1.9;
+}
+.p-option__box {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #333;
+  display: inline-block;
+  flex: none;
+  transform: translateY(1px);
+}
+.p-option.is-key .p-option__box { background: #111; }
+.p-option.is-key { font-weight: 700; }
+.p-answer-line {
+  margin-left: 28px;
+  border-bottom: 1px solid #999;
+  height: 22px;
+  max-width: 260px;
+}
+.p-key-text {
+  margin-left: 28px;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-bottom: 1px solid #999;
+  max-width: 260px;
+}
+
+/* --- Lembar jawaban ----------------------------------------------------- */
+.p-sheet {
+  margin-top: 26px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.p-sheet__title {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid #333;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+.p-sheet table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.p-sheet th,
+.p-sheet td { border: 1px solid #999; padding: 4px 6px; text-align: center; }
+.p-sheet th { background: #f1f5f9; font-family: var(--font-sans); font-size: 10.5px; letter-spacing: 0.08em; }
+.p-sheet td.marks { letter-spacing: 0.5em; font-size: 13px; }
+.p-sheet td.key { font-weight: 700; }
+
+.paper-foot {
+  margin-top: 22px;
+  border-top: 1px solid #bbb;
+  padding-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+
+.key-flag {
+  display: inline-block;
+  border: 1.5px solid var(--danger);
+  color: var(--danger);
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 1px 8px;
+  border-radius: 4px;
+  margin-left: 8px;
+}
+
+/* --- Cetak -------------------------------------------------------------- */
+@page { size: A4 portrait; margin: 14mm 13mm; }
+
+@media print {
+  html, body { background: #fff; font-size: 12px; }
+  .accent-bar,
+  .site-header,
+  .site-footer,
+  .print-toolbar { display: none !important; }
+  .site-main { padding: 0 !important; }
+  .container { max-width: none; padding: 0; }
+  .paper {
+    max-width: none;
+    width: auto;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+  .p-section,
+  .p-sheet th,
+  .p-q__context,
+  .p-q__sentence { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+@media (max-width: 640px) {
+  .paper { padding: 18px 16px 24px; }
+  .paper-fields { flex-direction: column; gap: 10px; }
+  .p-options { margin-left: 0; }
+}

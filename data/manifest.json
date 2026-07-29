@@ -1,0 +1,71 @@
+{
+  "brand": {
+    "name": "Nihonggo Club",
+    "nameJp": "にほんごクラブ",
+    "tagline": "Latihan bahasa Jepang harian — kosakata, kanji, tata bahasa, dan bacaan.",
+    "issuer": "Nihonggo Club",
+    "issuerJp": "にほんごクラブ",
+    "signerName": "Nihonggo Club",
+    "signerRole": "Class Instructor"
+  },
+  "weeks": [
+    {
+      "id": "week1",
+      "title": "第1週",
+      "subtitle": "Week 1 · Dasar N5–N4",
+      "days": [
+        {
+          "slug": "week1/day1-kotoba",
+          "day": "Day 1",
+          "title": "語彙（ことば）",
+          "subtitle": "Kosakata dasar & cara baca",
+          "tag": "語彙",
+          "level": "N5",
+          "questions": 8,
+          "points": 10,
+          "passing": 7
+        },
+        {
+          "slug": "week1/day2-kanji",
+          "day": "Day 2",
+          "title": "漢字",
+          "subtitle": "Menulis & membaca kanji dasar",
+          "tag": "漢字",
+          "level": "N5",
+          "questions": 8,
+          "points": 10,
+          "passing": 7
+        },
+        {
+          "slug": "week1/day3-bunpou",
+          "day": "Day 3",
+          "title": "文法",
+          "subtitle": "らしい・っぽい・みたい・よう",
+          "tag": "文法",
+          "level": "N4",
+          "questions": 8,
+          "points": 10,
+          "passing": 6
+        }
+      ]
+    },
+    {
+      "id": "week2",
+      "title": "第2週",
+      "subtitle": "Week 2 · Membaca",
+      "days": [
+        {
+          "slug": "week2/day1-dokkai",
+          "day": "Day 1",
+          "title": "読解",
+          "subtitle": "Bacaan pendek & pemahaman isi",
+          "tag": "読解",
+          "level": "N4",
+          "questions": 5,
+          "points": 6,
+          "passing": 4
+        }
+      ]
+    }
+  ]
+}
