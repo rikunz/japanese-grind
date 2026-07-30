@@ -13,14 +13,36 @@
 
   var NC = global.NC || (global.NC = {});
 
+  // Anti-Extension Injection (MutationObserver)
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      mutation.addedNodes.forEach(function(node) {
+        if (node.nodeType !== 1) return; // Node.ELEMENT_NODE
+        var tag = node.tagName.toLowerCase();
+        var isScript = tag === 'script' && node.src && node.src.indexOf(window.location.origin) !== 0 && node.src.indexOf('js/') === -1;
+        if (isScript || tag === 'iframe' || tag.indexOf('-') !== -1) {
+          if (node.parentNode) {
+            node.parentNode.removeChild(node);
+            console.warn('[Proctor] Removed unauthorized injected node: ' + tag);
+          }
+        }
+      });
+    });
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
   var LABELS = {
     fullscreen: 'Keluar dari layar penuh',
     tab: 'Pindah tab atau jendela',
     copy: 'Percobaan menyalin teks',
-    capture: 'Percobaan tangkapan layar / cetak'
+    capture: 'Percobaan tangkapan layar / cetak',
+    devtools: 'Penggunaan alat pengembang (DevTools)'
   };
 
   var BLOCKED_KEYS = ['c', 'x', 'a', 's', 'p', 'u', 'v'];
+
+  var devToolsTrap1;
+  var devToolsTrap2;
 
   function isEditable(el) {
     if (!el || !el.tagName) return false;
@@ -55,6 +77,12 @@
       if (config.onState) {
         config.onState({ running: running, paused: paused, reason: reason, counts: counts });
       }
+    }
+
+    function triggerDevToolsViolation() {
+      if (!running || paused) return;
+      violation('devtools');
+      pause('devtools');
     }
 
     function violation(type) {
@@ -156,19 +184,44 @@
 
       on(document, 'visibilitychange', function () {
         if (!running) return;
+        var app = document.getElementById('app');
         if (document.hidden) {
+          if (app) app.style.opacity = '0';
           violation('tab');
           pause('tab');
+        } else {
+          if (app) app.style.opacity = '1';
         }
       });
 
       on(document, 'fullscreenchange', onFullscreenChange);
       on(document, 'webkitfullscreenchange', onFullscreenChange);
 
-      on(global, 'blur', function () { document.body.classList.add('exam-unfocused'); });
-      on(global, 'focus', function () { document.body.classList.remove('exam-unfocused'); });
+      on(global, 'blur', function () { 
+          document.body.classList.add('exam-unfocused'); 
+          var app = document.getElementById('app');
+          if (app) app.style.opacity = '0';
+      });
+      on(global, 'focus', function () { 
+          document.body.classList.remove('exam-unfocused'); 
+          var app = document.getElementById('app');
+          if (app) app.style.opacity = '1';
+      });
 
       on(global, 'beforeprint', function () { violation('capture'); });
+
+      devToolsTrap1 = global.setInterval(function() {
+        var start = performance.now();
+        debugger;
+        var end = performance.now();
+        if (end - start > 100) triggerDevToolsViolation();
+      }, 1000);
+
+      devToolsTrap2 = global.setInterval(function() {
+        if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+            triggerDevToolsViolation();
+        }
+      }, 1000);
     }
 
     function onFullscreenChange() {
@@ -217,7 +270,11 @@
       running = false;
       paused = false;
       offAll();
+      global.clearInterval(devToolsTrap1);
+      global.clearInterval(devToolsTrap2);
       document.body.classList.remove('exam-active', 'exam-paused', 'exam-unfocused');
+      var appContainer = document.getElementById('app');
+      if (appContainer) appContainer.style.opacity = '1';
       return exitFullscreen();
     }
 
@@ -231,7 +288,8 @@
           fullscreen: counts.fullscreen,
           tab: counts.tab,
           copy: counts.copy,
-          capture: counts.capture
+          capture: counts.capture,
+          devtools: counts.devtools
         }
       };
     }

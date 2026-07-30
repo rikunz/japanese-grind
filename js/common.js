@@ -181,6 +181,18 @@
     return found;
   }
 
+  const PRIVATE_KEY_JWK = {
+    "kty": "RSA",
+    "n": "s5hw9nJRBdifldiV5b1Io-G-aPiyRll-kSMhMOGRpHei3ZzK1Lce_WgnkxurDppWQeaF2Jak5cv9oyuqADBhfAbd6AtjLwCCr8f5e7px_IdjJN7bOd2rlX4gArcqUGjAweZvky-XKs9Md90f_ZC2AcZXJxk-90ayIKuy46qI6dpye3Oiw7Z0ZJ2BvvYR0sKPmyvW_QNGrGT4seIWvJiz0azmth3wuYQM_NT-JNwkthJbk2wX4dgOud1WaKNqL3GsGSUnUNuohbQCutewGegyxBouJXCukfdIOET1tnX8xAr3YZoh9aS_ThWZ4PS0KHpE7_QyAEpZWShuO1ObDPb_1w",
+    "e": "AQAB",
+    "d": "TOI9ucNGnFIYP3Xw9eEKb938PcP5zdQSMt_vHZXzW40709ODoXyjb6hfCMMXf7DirGObeRVEknu5oVjX9izADvCBnw0A8OYvDEF3tFgk5A6xit88ypDzG5Ra786p9rJhkqCrsz70YAdOnSG0yEBjKm9WcA6GviUtrH7UnlIrOrDqJXlKYOSip0N9IitINMiy6An7hNbQ3OPRvjy7A83YpU-duBpco-_uPdVMvYrSvm4qRjCkScFpMQkq9EhFQfKu-gtrCZ1c8a0PHJZ1lZzb9qq-MqKDuhx908wi_ZgVjAaliAHlGxlI5tVyAJAe-kRos9AuhT33foGvxn6BGA99AQ",
+    "p": "2cnyG3OQFybpYTw0XQ5Uykf79BVfRFKTcqNCLJgTJok7aDC_RxNr55NJo2Q2zDeddmZyCME6e_Jfox9A_2HrWkmPfluV-U6cUR5EpbzphoaX6l7MnzOKlkUk-BW7EGd-mYaY1ZOGwJT3GbwKBoAHlYhOpxO__Z4CpWByDgE-EKc",
+    "q": "0xsHL-p5ZvyuLJOdel6EVGRepRZWXIqJolx0CDZl51URxIcMR2kZqMEJCBgZoIfKu6x5x-7_p3zwj51NKTs9UHQrsfa6fhjag-aK2FLAwdCurOpUb3aoVYh1aHq-ZgKBQcOUDGR3vqF7tb34xVw1Vzj-W8qhBGLPhJnt9tTSzVE",
+    "dp": "iBv7oUhh3vZEmK5Fk3qnZxwBzJOmzE5HNDfv3WrVXRoa9Iyynjr3Du0v8ltpG8wOLrbrwajxYhEh0BJyTqjlq7GZakDWw85rRw8BnAsqbxaizqicfUp67FseNaVvGVt09YH29lOSvbzbiUvJgDJ3iu57KVPggyJDSROzdCk2nrU",
+    "dq": "Im2F_op-wgzzWtG4HPzNF_ZGeSXrb6woRhJN2gkFFXUKMMLVfc_mH19b2bYUd9mtdm3qbnDLwMTfdoxwyQigNz664YsbXvUurdQrUJwuU211Dz4oBwWS7mASxbc-1eQSsGb0_hBkdvJe-oTAzW78Q_1HfjDNkamLrlRsOpT6zAE",
+    "qi": "mlFsRatdj6qN3XHk2apCExmee3qsciCxEqQJIUHRNMUwIc0TlrqVc2nlD7Jlhr4VuTMrLwcXN73Sx9oAyIWtigOF6qNjAi8rhRmMRkei_53_wcKlMvzEMrQImAqj9b_tqhL2smNp8AMpd_LQHicRkL3iq0jnJPGj3ETXf8981LQ"
+  };
+
   async function loadQuiz(slug) {
     if (!slug) {
       throw new NCError('Parameter ?quiz= belum diisi',
@@ -189,7 +201,81 @@
     if (!/^[a-z0-9][a-z0-9._/-]*$/i.test(slug) || slug.indexOf('..') !== -1) {
       throw new NCError('Nama quiz tidak valid', esc(slug));
     }
-    var quiz = await loadJSON('data/' + slug + '.json');
+    
+    var path = 'data/' + slug + '.enc.json';
+    var res;
+    try {
+      res = await fetch(path, { cache: 'no-cache' });
+    } catch (e) {
+      throw new NCError('Tidak bisa memuat ' + path, fileHint() || 'Periksa koneksi atau nama file.');
+    }
+    if (!res.ok) {
+      throw new NCError('File terenkripsi tidak ditemukan (HTTP ' + res.status + ')', path);
+    }
+    
+    var payload;
+    try {
+      payload = await res.json();
+    } catch (e) {
+      throw new NCError('Format payload enkripsi tidak valid', path + ' — ' + e.message);
+    }
+
+    var quiz;
+    try {
+      var base64ToArrayBuffer = function(base64) {
+        var binaryString = window.atob(base64);
+        var bytes = new Uint8Array(binaryString.length);
+        for (var i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes.buffer;
+      };
+
+      var rsaPrivateKey = await window.crypto.subtle.importKey(
+        "jwk",
+        PRIVATE_KEY_JWK,
+        { name: "RSA-OAEP", hash: "SHA-256" },
+        false,
+        ["decrypt"]
+      );
+
+      var encryptedAesKeyBuffer = base64ToArrayBuffer(payload.encryptedAesKey);
+      var aesKeyBuffer = await window.crypto.subtle.decrypt(
+        { name: "RSA-OAEP" },
+        rsaPrivateKey,
+        encryptedAesKeyBuffer
+      );
+
+      var aesGcmKey = await window.crypto.subtle.importKey(
+        "raw",
+        aesKeyBuffer,
+        "AES-GCM",
+        false,
+        ["decrypt"]
+      );
+
+      var ivBuffer = base64ToArrayBuffer(payload.iv);
+      var authTagBuffer = base64ToArrayBuffer(payload.authTag);
+      var encryptedDataBuffer = base64ToArrayBuffer(payload.encryptedData);
+
+      var combinedEncryptedBuffer = new Uint8Array(encryptedDataBuffer.byteLength + authTagBuffer.byteLength);
+      combinedEncryptedBuffer.set(new Uint8Array(encryptedDataBuffer), 0);
+      combinedEncryptedBuffer.set(new Uint8Array(authTagBuffer), encryptedDataBuffer.byteLength);
+
+      var decryptedBuffer = await window.crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: ivBuffer },
+        aesGcmKey,
+        combinedEncryptedBuffer
+      );
+
+      var decoder = new TextDecoder();
+      var jsonString = decoder.decode(decryptedBuffer);
+      quiz = JSON.parse(jsonString);
+    } catch (e) {
+      console.error(e);
+      throw new NCError('Gagal mendekripsi file ujian', 'Mungkin karena modifikasi tidak sah atau browser usang.');
+    }
+
     return normalize(quiz, slug);
   }
 
@@ -229,7 +315,7 @@
     return Number(given) === Number(q.answer);
   }
 
-  function grade(quiz, answers, name) {
+  function grade(quiz, answers, name, proctorSummary) {
     var details = quiz.questions.map(function (q) {
       var given = answers[q.id];
       var ok = isCorrect(q, given);
@@ -262,7 +348,11 @@
       bySection[key].count += 1;
     });
 
-    var score = details.reduce(function (s, d) { return s + d.earned; }, 0);
+    var baseScore = details.reduce(function (s, d) { return s + d.earned; }, 0);
+    var devtoolsCount = proctorSummary && proctorSummary.counts ? proctorSummary.counts.devtools || 0 : 0;
+    var penalty = devtoolsCount * 2;
+    var score = Math.max(0, baseScore - penalty);
+    
     var total = quiz.totalPoints;
     var percent = total ? Math.round((score / total) * 100) : 0;
 
@@ -271,6 +361,8 @@
       title: quiz.title,
       description: quiz.description || '',
       name: (name || '').trim(),
+      baseScore: baseScore,
+      penalty: penalty,
       score: score,
       total: total,
       percent: percent,

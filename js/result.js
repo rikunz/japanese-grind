@@ -141,11 +141,24 @@
           '<td class="num">' + s.score + ' / ' + s.total + '</td>' +
         '</tr>';
       }).join('') + '</tbody>' +
-      '<tfoot><tr>' +
-        '<td>Total</td><td class="num">' + r.questionCount + '</td>' +
-        '<td class="num">' + r.percent + '%</td>' +
-        '<td class="num">' + r.score + ' / ' + r.total + '</td>' +
-      '</tr></tfoot>' +
+      '<tfoot>' +
+        (r.penalty > 0 ?
+          '<tr>' +
+            '<td>Total Awal</td><td class="num">' + r.questionCount + '</td>' +
+            '<td class="num"></td>' +
+            '<td class="num">' + (r.baseScore != null ? r.baseScore : r.score) + ' / ' + r.total + '</td>' +
+          '</tr>' +
+          '<tr style="color: var(--danger);">' +
+            '<td>Denda Pelanggaran (DevTools)</td><td></td><td></td>' +
+            '<td class="num">-' + r.penalty + '</td>' +
+          '</tr>'
+        : '') +
+        '<tr style="font-weight:bold">' +
+          '<td>' + (r.penalty > 0 ? 'Skor Akhir' : 'Total') + '</td><td class="num">' + (r.penalty > 0 ? '' : r.questionCount) + '</td>' +
+          '<td class="num">' + r.percent + '%</td>' +
+          '<td class="num">' + r.score + ' / ' + r.total + '</td>' +
+        '</tr>' +
+      '</tfoot>' +
     '</table>';
   }
 
@@ -154,7 +167,8 @@
     if (!p) return '';
     var labels = window.NC.PROCTOR_LABELS || {
       fullscreen: 'Keluar dari layar penuh', tab: 'Pindah tab atau jendela',
-      copy: 'Percobaan menyalin teks', capture: 'Percobaan tangkapan layar / cetak'
+      copy: 'Percobaan menyalin teks', capture: 'Percobaan tangkapan layar / cetak',
+      devtools: 'Penggunaan alat pengembang (DevTools)'
     };
     var rows = Object.keys(p.counts || {})
       .filter(function (k) { return p.counts[k] > 0; })

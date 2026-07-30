@@ -36,7 +36,22 @@
     document.getElementById('printLink').classList.remove('hidden');
 
     try {
-      quiz = await NC.loadQuiz(slug);
+      var manifest = await NC.loadManifest();
+      var found = NC.findDay(manifest, slug);
+      if (!found) throw new Error("Materi tidak ditemukan di manifest.");
+      
+      // Buat data sementara (mock) agar gate bisa dirender tanpa memuat file JSON aslinya
+      quiz = {
+        slug: slug,
+        title: found.day.title || slug,
+        description: found.day.subtitle || '',
+        level: found.level ? found.level.title : '',
+        questions: { length: found.day.questions || 0 }, // Hanya butuh length untuk gate
+        totalPoints: found.day.points || 0,
+        passingScore: found.day.passing || 0,
+        collectName: found.day.collectName !== false,
+        proctor: found.day.proctor !== false
+      };
     } catch (err) {
       NC.renderError(app, err);
       return;
@@ -126,7 +141,27 @@
       NC.setName(name);
     }
 
-    if (!examMode) { openQuiz(); return; }
+    function loadAndStart() {
+      var btn = document.getElementById('startBtn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = 'Memuat soal...';
+      }
+      
+      NC.loadQuiz(slug).then(function (actualQuiz) {
+        quiz = actualQuiz; // Ganti mock data dengan data asli
+        openQuiz();
+      }).catch(function (err) {
+        if (proctor) proctor.stop();
+        gateError('<b>Gagal memuat soal.</b><br>' + NC.esc(err && err.message ? err.message : ''));
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = (examMode ? ICON_FULLSCREEN + 'Mulai &amp; masuk layar penuh' : 'Mulai latihan');
+        }
+      });
+    }
+
+    if (!examMode) { loadAndStart(); return; }
 
     proctor = NC.createProctor({
       onState: onExamState,
@@ -135,7 +170,7 @@
       }
     });
 
-    proctor.start().then(openQuiz).catch(function (err) {
+    proctor.start().then(loadAndStart).catch(function (err) {
       gateError('<b>Layar penuh gagal diaktifkan.</b><br>' + NC.esc(err && err.message ? err.message : '') +
         ' Coba klik tombolnya lagi, atau lanjut tanpa layar penuh — statusnya akan dicatat di hasil.' +
         '<br><br><button type="button" class="btn btn--outline btn--sm" id="startNoFs">Lanjut tanpa layar penuh</button>');
@@ -143,7 +178,7 @@
       if (fallback) {
         fallback.addEventListener('click', function () {
           proctor = NC.createProctor({ enforce: false, onState: onExamState });
-          proctor.start().then(openQuiz);
+          proctor.start().then(loadAndStart);
         });
       }
     });
@@ -306,12 +341,20 @@
 
   function showOverlay(state) {
     var isTab = state.reason === 'tab';
-    document.getElementById('examTitle').textContent = isTab
-      ? 'Kamu meninggalkan halaman ujian'
-      : 'Ujian dijeda';
-    document.getElementById('examDesc').textContent = isTab
-      ? 'Berpindah tab atau jendela tercatat sebagai pelanggaran. Kembali ke layar penuh untuk melanjutkan.'
-      : 'Ujian harus dikerjakan dalam layar penuh. Klik tombol di bawah untuk melanjutkan.';
+    var isDevtools = state.reason === 'devtools';
+
+    if (isDevtools) {
+      document.getElementById('examTitle').textContent = 'Pelanggaran Berat Terdeteksi';
+      document.getElementById('examDesc').innerHTML = 'Penggunaan <b>Alat Pengembang (DevTools)</b> tidak diizinkan.<br>Pelanggaran ini mengakibatkan <b>pengurangan 2 poin</b> pada nilai akhir Anda.<br>Tutup alat pengembang lalu kembali ke layar penuh untuk melanjutkan.';
+    } else {
+      document.getElementById('examTitle').textContent = isTab
+        ? 'Kamu meninggalkan halaman ujian'
+        : 'Ujian dijeda';
+      document.getElementById('examDesc').textContent = isTab
+        ? 'Berpindah tab atau jendela tercatat sebagai pelanggaran. Kembali ke layar penuh untuk melanjutkan.'
+        : 'Ujian harus dikerjakan dalam layar penuh. Klik tombol di bawah untuk melanjutkan.';
+    }
+
     document.getElementById('examLog').innerHTML = logRows(state.counts);
     overlay.hidden = false;
     document.getElementById('examResume').focus();
@@ -375,8 +418,9 @@
     }
 
     submitted = true;
-    var result = NC.grade(quiz, answers, name);
-    if (proctor) result.proctor = proctor.summary();
+    var pSummary = proctor ? proctor.summary() : null;
+    var result = NC.grade(quiz, answers, name, pSummary);
+    if (proctor) result.proctor = pSummary;
     NC.saveResult(result);
 
     var done = proctor ? proctor.stop() : Promise.resolve();
