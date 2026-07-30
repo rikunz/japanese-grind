@@ -1,0 +1,135 @@
+{
+    "id": "n3-week1-day4-kotoba",
+    "title": "第1週-4日目（語彙）",
+    "description": "JLPT N3 Vocabulary Practice",
+    "level": "N3",
+    "passingScore": 6,
+    "totalQuestions": 8,
+    "collectName": true,
+    "questions": [
+        {
+            "id": 1,
+            "section": "問題１",
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "ぞうきんをよく（　　　　）から、ふきましょ。",
+            "options": [
+                "みがいて",
+                "しぼって",
+                "こすって",
+                "そろえて"
+            ],
+            "answer": 2,
+            "explanation": "「しぼる」= memeras. Sebelum mengepel atau mengelap, kain lap harus diperas terlebih dahulu."
+        },
+        {
+            "id": 2,
+            "section": "問題１",
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "やさいなどの（　　　　）ゴミは、もえるゴミで出します。",
+            "options": [
+                "なま",
+                "いい",
+                "しん",
+                "しんせん"
+            ],
+            "answer": 1,
+            "explanation": "「生ゴミ（なまごみ）」 berarti sampah organik seperti sisa makanan dan sayuran."
+        },
+        {
+            "id": 3,
+            "section": "問題１",
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "外の水道で水を（　　　　）きてください。",
+            "options": [
+                "つかって",
+                "ぬらして",
+                "くんで",
+                "しぼって"
+            ],
+            "answer": 3,
+            "explanation": "「水をくむ」 berarti mengambil atau menimba air."
+        },
+        {
+            "id": 4,
+            "section": "問題１",
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "宿題をするのは、めんどう（　　　　）",
+            "options": [
+                "からい",
+                "くさい",
+                "におい",
+                "っぽい"
+            ],
+            "answer": 2,
+            "explanation": "「めんどうくさい」 berarti merepotkan atau malas untuk dilakukan."
+        },
+        {
+            "id": 5,
+            "section": "問題２",
+            "type": "multiple-choice",
+            "points": 1,
+            "instruction": "下線の言葉に最も近い意味を選びなさい。",
+            "question": "ものおきに『しまう』。",
+            "options": [
+                "たまる",
+                "かける",
+                "どける",
+                "いれる"
+            ],
+            "answer": 4,
+            "explanation": "「しまう」 berarti menyimpan atau memasukkan ke tempat penyimpanan."
+        },
+        {
+            "id": 6,
+            "section": "問題２",
+            "type": "multiple-choice",
+            "points": 1,
+            "instruction": "下線の言葉に最も近い意味を選びなさい。",
+            "question": "ゴミを『わける』。",
+            "options": [
+                "たまる",
+                "かける",
+                "どける",
+                "いれる"
+            ],
+            "answer": 2,
+            "explanation": "「わける」 berarti memisahkan atau mengelompokkan. Pada konteks sampah berarti memilah sampah."
+        },
+        {
+            "id": 7,
+            "section": "問題３",
+            "type": "multiple-choice",
+            "points": 2,
+            "instruction": "言葉の使い方として最もよいものを選びなさい。",
+            "question": "こぼす",
+            "options": [
+                "妹はまだ小さいから、食べる時、よくこぼします。",
+                "かばんからさいふをこぼしてしまった。",
+                "コップをこぼして、わってしまった。",
+                "料理している時、油をこぼして、やけどした。"
+            ],
+            "answer": 1,
+            "explanation": "「こぼす」 digunakan ketika cairan atau makanan tumpah atau tercecer."
+        },
+        {
+            "id": 8,
+            "section": "問題３",
+            "type": "multiple-choice",
+            "points": 2,
+            "instruction": "言葉の使い方として最もよいものを選びなさい。",
+            "question": "ゆか",
+            "options": [
+                "私はこのアパートの５ゆかにすんでいます。",
+                "かばんのゆかがよごれていたので、洗った。",
+                "おふろのゆかですべって、頭をうった。",
+                "冬は寒いので、新しいゆかを買った。"
+            ],
+            "answer": 3,
+            "explanation": "「床（ゆか）」 berarti lantai. Contoh penggunaan yang benar adalah 'terpeleset di lantai kamar mandi'."
+        }
+    ]
+}

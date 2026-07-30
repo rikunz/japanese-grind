@@ -60,6 +60,26 @@
               "questions": 8,
               "points": 10,
               "passing": 6
+            },
+            {
+              "slug": "n3/week1/day4-kanji",
+              "day": "Day 4",
+              "title": "漢字",
+              "subtitle": "Latihan menulis & membaca kanji N3",
+              "tag": "漢字",
+              "questions": 8,
+              "points": 8,
+              "passing": 6
+            },
+            {
+              "slug": "n3/week1/day4-kotoba",
+              "day": "Day 4",
+              "title": "語彙（ことば）",
+              "subtitle": "Kosakata Bersih & Sampah",
+              "tag": "語彙",
+              "questions": 8,
+              "points": 6,
+              "passing": 5
             }
           ]
         },

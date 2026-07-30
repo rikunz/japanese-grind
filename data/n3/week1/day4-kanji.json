@@ -1,0 +1,123 @@
+{
+    "id": "n3-week1-day4-kanji",
+    "title": "第1週-4日目（漢字）",
+    "description": "JLPT N3 Kanji Practice",
+    "level": "N3",
+    "passingScore": 8,
+    "totalQuestions": 8,
+    "collectName": true,
+    "questions": [
+        {
+            "section": 1,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "レバランの時、村に帰る人が多くて、こうそくどうろがこんでいます。",
+            "options": [
+                "公速道路",
+                "高速過路",
+                "高速道路",
+                "公早道路"
+            ],
+            "answer": 3,
+            "explanation": "こうそくどうろ → 高速道路 (jalan tol)."
+        },
+        {
+            "section": 1,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "Hogwarts Expressのばんせんは、何番ですか。",
+            "options": [
+                "3 1/4 番鉄",
+                "3 1/4 番線",
+                "3 1/4 番新",
+                "3 1/4 番銀"
+            ],
+            "answer": 2,
+            "explanation": "ばんせん → 番線 (jalur/peron kereta)."
+        },
+        {
+            "section": 1,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "Ａ：「じゃ、これでおわりましょう。またじかいね。」\nＢ：「おつかれさまでした。」",
+            "options": [
+                "次回",
+                "次口",
+                "欠点",
+                "欠席"
+            ],
+            "answer": 1,
+            "explanation": "じかい → 次回 (lain kali/pertemuan berikutnya)."
+        },
+        {
+            "section": 2,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "早ければ、もくじを見てみてください。",
+            "options": [
+                "目標",
+                "目的",
+                "目字",
+                "目次"
+            ],
+            "answer": 4,
+            "explanation": "もくじ → 目次 (daftar isi)."
+        },
+        {
+            "section": 2,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "子供の時古いてつどうのあいだによく遊んでいた。",
+            "options": [
+                "銀道",
+                "鉄道",
+                "線道",
+                "鉄動"
+            ],
+            "answer": 2,
+            "explanation": "てつどう → 鉄道 (jalur kereta api)."
+        },
+        {
+            "section": 2,
+            "type": "multiple-choice",
+            "points": 1,
+            "question": "この電車はかくえきにとまりますか？",
+            "options": [
+                "名駅",
+                "各働",
+                "各駅",
+                "名運"
+            ],
+            "answer": 3,
+            "explanation": "かくえき → 各駅 (setiap stasiun/lokal)."
+        },
+        {
+            "section": 3,
+            "type": "multiple-choice",
+            "points": 2,
+            "question": "世界で言語や、こっきや、こっかなどが国によってちがいます。",
+            "options": [
+                "国",
+                "国旗",
+                "各国",
+                "国家"
+            ],
+            "answer": 3,
+            "explanation": "各国 berarti 'masing-masing negara'."
+        },
+        {
+            "section": 3,
+            "type": "multiple-choice",
+            "points": 2,
+            "question": "スマホのがめんはあまりみえないんです。",
+            "options": [
+                "画面",
+                "全面",
+                "面白",
+                "面倒"
+            ],
+            "answer": 1,
+            "explanation": "画面 berarti layar."
+        }
+    ]
+}
